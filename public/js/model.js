@@ -33,31 +33,62 @@ app.api = {
 }
 
 app.model = {
-	getAllGroups: function(callback){
-		if(app.cache.allGroups != undefined){
-			callback(app.cache.allStatus);
-			return;
-		}
 
-		// app.api.get('allStatus');
-		var data = {
-			'new': 3,
-			'waiting': 5,
-			'eating': 7
-		}
+	groups: {
+		getAll: function(callback){
+			// app.api.get('allStatus');
+			var data = {
+				'new': 3,
+				'waiting': 5,
+				'eating': 7
+			}
 
-		callback(data);
+			callback(data);
+		},
+
+		getDetails: function(type, callback){
+			var data = {
+				tables: [1, 2, 5]
+			}
+			callback(data);
+		},
 	},
 
-	getGroupDetails: function(type, callback){
-		if(app.cache.groupDetails && app.cache.groupDetails[type]){
-			callback(app.cache.groupDetails[type]);
-			return;
+	orders: {
+		markResolved: function(data, callback){
+			// app.api.post('orders', data,callback);
+			callback(true);
 		}
-
-		var data = {
-			tables: [1, 2, 5]
-		}
-		callback(data);
 	},
+
+	users: {
+		getTop: function(callback){
+			// app.api.get('/users/top', callback);
+			
+			var data = [
+				{
+					user_id: 1,
+					name: 'Shashank Mehta',
+					loyalty: 5
+				},
+				{
+					user_id: 2,
+					name: 'Ashwini Khare',
+					loyalty: 3
+				},
+				{
+					user_id: 3,
+					name: 'Divij Bindlish',
+					loyalty: 4
+				},
+				{
+					user_id: 4,
+					name: 'Abhishek Kandoi',
+					loyalty: 1
+				}
+			]
+
+			callback(data);
+		}
+	}
 }
