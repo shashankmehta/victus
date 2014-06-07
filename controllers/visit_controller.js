@@ -6,42 +6,42 @@ exports.startNewVisit = function (req, res) {
   var uid = req.user.id;
   var time = new Date().getTime();
 
-  // db.Visit.findOne({ restaurant: rid, table: tid, ended_at: null }, function (err, visit) {
+  db.Visit.findOne({ restaurant: rid, table: tid, ended_at: null }, function (err, visit) {
     // console.log(visit);
-    // if (docs.length === 0) {
-    //   // New visit
-      var visit = new db.Visit({ restaurant: rid, table: tid, users: [uid], items: [], bill: 0.0, tip: 0.0, started_at: t, ended_at: null });
-      console.log("New visit started!");
+    if (!visit) {
+      // New visit
+      var visit = new db.Visit({ restaurant: rid, table: tid, users: [uid], items: [], bill: 0.0, tip: 0.0, started_at: time, ended_at: null });
       visit.save(function (err) {
         if (err) {
           console.log(err);
         }
+        db.Table.findByIdAndUpdate(tid, { status: 'just_in' }, function (err, table) {
+          res.json({ result: true });
+        });
       });
-    // } else {
-    //   // Add user to old visit
-    //   var id = docs[0].id;
-    //   console.log("User added to current visit");
-    //   Visit.findByIdAndUpdate(id, { $push: { "users": uid } }, { safe: true, upsert: true }, function (err, visit) {
-    //     if (err) {
-    //       console.log(err);
-    //     }
-    //     console.log(visit);
-    //   });
-    // }
-  // });
+    } else {
+      // Add user to old visit
+      db.Visit.findByIdAndUpdate(visit.id, { $push: { "users": uid } }, { safe: true, upsert: true }, function (err, visit) {
+        if (err) {
+          console.log(err);
+        }
+        res.json({ result: true });
+      });
+    }
+  });
 };
 
 exports.endVisit = function (req, res) {
-  var table = req.body.table;
+  var tid = req.body.table;
   var time = new Date().getTime();
-  db.Visit.findOne({ table: table }, function (err, visit) {
+  db.Visit.findOne({ table: tid }, function (err, visit) {
     db.Visit.findByIdAndUpdate(visit.id, { ended_at: time }, function (err) {
       if (err) {
         console.log(err);
       }
-      // console.log(visit);
-      // db.Table.findByIdAndUpdate(visit.table.id)
-      res.json({ result: true });
+      db.Table.findByIdAndUpdate(table, { status: 'free' }, function (err, table) {
+        res.json({ result: true });
+      })
     });
   });
 };
@@ -49,19 +49,19 @@ exports.endVisit = function (req, res) {
 exports.orderFood = function (req, res) {
   var uid = req.user.id;
   var item = req.body.item;
-  db.Visit.findOne({ }, function (err, visit) {
+  db.Visit.findOne({ users: { $in: [uid] }, ended_at: null }, function (err, visit) {
     // We have the visit
     if (err) {
       console.log(err);
     }
-    db.Item.findOne({ }, function (err, item) {
+    db.Item.findById(item, function (err, item) {
       // We have the item
       if (err) {
         console.log(err);
       }
       db.Visit.findByIdAndUpdate(visit.id, { $push: { "items": item.id }, bill: visit.bill + item.price }, function (err, visit) {
         // We add the item and update the bill
-        console.log("done");
+        res.json({ result: true });
         // Broadcast socket.io event here
       });
     });
@@ -70,23 +70,24 @@ exports.orderFood = function (req, res) {
 
 exports.callForWaiter = function (req, res) {
   var uid = req.user.id;
-  db.Visit.findOne({ }, function (err, visit) {
+  db.Visit.findOne({ users: { $in: [uid] }, ended_at: null }, function (err, visit) {
     // We have the visit
     if (err) {
       console.log(err);
     }
+    res.send({ result: true });
     // Broadcast socket.io event here
   });
 };
 
 exports.callForCheck = function (req, res) {
   var uid = req.user.id;
-  db.Visit.findOne({ }, function (err, visit) {
+  db.Visit.findOne({ users: { $in: [uid] }, ended_at: null }, function (err, visit) {
     // We have the visit
     if (err) {
       console.log(err);
     }
-    res.send({ amount: visit.bill + 0.125 * visit.bill });
+    res.json({ amount: visit.bill + 0.125 * visit.bill });
     // Broadcast socket.io event here
   });
 };
@@ -94,7 +95,7 @@ exports.callForCheck = function (req, res) {
 exports.giveFeedback = function (req, res) {
   var uid = req.user.id;
   var feedback = req.body.feedback;
-  db.Visit.findOne({ }).populate('restaurant').exec(function (err, visit) {
+  db.Visit.findOne({ users: { $in: [uid] } }, function (err, visit) {
     // We have the visit
     if (err) {
       console.log(err);
@@ -115,6 +116,10 @@ exports.giveFeedback = function (req, res) {
 exports.listMenu = function (req, res) {
   var uid = req.user.id;
   db.Visit.findOne({ users: { $in: [uid] }, ended_at: null }, function (err, visit) {
-    console.log(visit);
+    // We have the visit
+    db.Item.find({ restaurant: visit.restaurant }, function (err, items) {
+      // We have all the menu items
+      res.json(items);
+    });
   });
 };
