@@ -1,9 +1,9 @@
 {
-  "name": "hackathon-starter",
-  "version": "2.2.0",
+  "name": "angelhacks",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sahat/hackathon-starter.git"
+    "url": "https://github.com/sdslabs/angelhacks"
   },
   "scripts": {
     "start": "node app.js",
