@@ -9,7 +9,7 @@ var visitSchema = new mongoose.Schema({
   restaurant: String,
   table: String,
   user: String,
-  items: String,
+  items: Array,
   bill: Number,
   tip: Number,
   started_at: Number,
