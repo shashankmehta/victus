@@ -62,3 +62,12 @@ exports.saveRestaurant = function (req, res) {
   });
 
 };
+
+/**
+  * GET /song_request
+  */
+exports.getSongRequest = function(req, res){
+  res.render('songrequest', {
+    title : 'Request a Song'
+  })
+}

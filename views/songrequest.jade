@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	.page-headeroffset-2
+		h3 Song Request
+
+	form.form-horizontal
+		.form-group
+			label.col-sm-2.control-label(for='name') Name
+			.col-sm-6
+				input.form-control(type='text', id='name', name='name', placeholder='Name of Song')
+		.form-group
+			.col-sm-offset-2.col-sm-4
+				button.btn.btn-primary(type='submit') Submit
+
+!= js('song_request.js')
+	

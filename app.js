@@ -11,6 +11,7 @@ var logger = require('morgan');
 var errorHandler = require('errorhandler');
 var csrf = require('lusca').csrf();
 var methodOverride = require('method-override');
+var io = require('socket.io');
 
 var _ = require('lodash');
 var MongoStore = require('connect-mongo')({ session: session });
@@ -42,10 +43,14 @@ var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 
 /**
- * Create Express server.
+ * Create Express + socket.io http server
  */
 
 var app = express();
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+
 
 /**
  * Connect to MongoDB.
@@ -147,6 +152,9 @@ app.post('/restaurant/add', passportConf.isAuthenticated, restaurantController.s
 app.get('/item/add', passportConf.isAuthenticated, itemController.displayGetForm);
 app.post('/item/add', passportConf.isAuthenticated, itemController.saveItem);
 
+//Song Request
+app.get('/song_request', passportConf.isAuthenticated, restaurantController.getSongRequest);
+
 /**
  * API examples routes.
  */
@@ -245,10 +253,30 @@ app.get('/visit/menu', passportConf.isAuthenticated, visitController.listMenu);
 app.use(errorHandler());
 
 /**
+ * Socket.io Listeners & Emitters!
+ */
+
+io.sockets.on('connection', function(socket){
+
+  console.log('connected to client');
+
+  socket.emit('test', { msg : 'Connected to server!' });
+
+  socket.on('feedback', function(response){
+    console.log(response);
+  });
+
+  socket.on('disconnect', function(){
+    console.log('Connection Lost');
+  });
+
+});
+
+/**
  * Start Express server.
  */
 
-app.listen(app.get('port'), function() {
+server.listen(app.get('port'), function() {
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
 
