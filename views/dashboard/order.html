@@ -1,0 +1,15 @@
+<script class="script-order" type="text/template">
+	<div class="user loyalty-{{level}}">
+		<i class="fa fa-user"></i> 
+		<div class="loyalty loyalty-{{level}}">
+			<div class="meter loyalty-{{level}}"></div>
+		</div>
+	</div>
+	<h4>Table #{{table}}</h4>
+	<ul>
+		{{#each items}}
+			<li>{{name}} x{{quantity}}</li>
+		{{/each}}
+	</ul>
+	<a>Mark resolved</a>
+</script>

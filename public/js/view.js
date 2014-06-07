@@ -55,7 +55,7 @@ app.View = View;
 
 app.view = {
 	TableGroups: function(){
-		var parent = '.main';
+		var parent = '.tableGroups';
 
 		var view = {
 			showGroupDetails: function(obj){
@@ -118,6 +118,36 @@ app.view = {
 		}
 
 		app.model.getGroupDetails(type, view.init);
+		return view;
+	},
+
+	Order: function(data){
+		var view = {
+			init: function(data){
+				var parent = '.orders';
+				var page = new app.View('.script-order', parent, {data: data});
+				for (var key in page){
+					view[key] = page[key];
+				}
+				view.data = data;
+
+				view.$('a').click(view.markResolved);
+			},
+
+			markResolved: function(){
+				// app.api.post('order', {
+				// 	order_id: view.data.order_id,
+				// 	action: 'resolved'
+				// }, function(){
+					view.$el.fadeOut(500, function(){
+						view.$el.remove()
+					});
+				// });
+				
+			}
+		}
+
+		view.init(data);
 		return view;
 	}
 }

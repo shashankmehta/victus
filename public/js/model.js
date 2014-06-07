@@ -59,5 +59,5 @@ app.model = {
 			tables: [1, 2, 5]
 		}
 		callback(data);
-	}
+	},
 }
