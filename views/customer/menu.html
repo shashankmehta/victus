@@ -1,0 +1,28 @@
+<script class="script-menu" type="text/template">
+	<form>
+	<h2>Menu</h2>
+	<div class="menu">
+		<ul>
+			{{#each items}}
+				<li class="menu-item-group">
+					<div class="item-wrapper">
+						<div class="item-main">
+							<input type="checkbox" name="items[]" value="{{id}}" class="item">
+							<span class="name">{{name}}</span>
+							<span class="price">₹{{price}}</span>
+						</div>
+						<div class="item-tags">
+						{{#each tags}}
+						<span class="tag">{{this}}</span>
+						{{/each}}
+						</div>
+					</div>
+					<div class="hidden">
+						<input type="range" name="quantity[{{id}}]">
+					</div>
+				</li>
+			{{/each}}
+		</ul>
+	</div>
+	</form>
+</script>

@@ -30,6 +30,7 @@ var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
+var customerController = require('./controllers/customer');
 var dashboardController = require('./controllers/dashboard');
 var restaurantController = require('./controllers/restaurant_controller');
 var adminStatsController = require('./controllers/admin_stats_controller');
@@ -143,6 +144,9 @@ app.post('/account/profile', passportConf.isAuthenticated, userController.postUp
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
+
+// Customer home
+app.get('/customer/home', passportConf.isAuthenticated, customerController.getHome)
 
 // Dashboard
 app.get('/dashboard', passportConf.isAuthenticated, dashboardController.getDashboard);
