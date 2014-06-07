@@ -91,10 +91,47 @@ exports.getCurrentUsers = function (req, res) {
 
 exports.getUserDetails = function (req, res) {
   var admin = req.user.id;
-  var uid = req.query.uid;
+  var uid = admin;
+  // var uid = req.query.uid;
+  var items_global = {};
+  var matrix = [];
 
-  db.Restaurant.find({ admin: admin }, function (err, restaurant) {
-
+  db.Restaurant.findOne({ admin: admin }, function (err, restaurant) {
+    if (err) {
+      console.log(err);
+    }
+    if (restaurant) {
+      db.Item.find({ restaurant: restaurant.id }, function (err, items) {
+        if (err) {
+          console.log(err);
+        }
+        if (items) {
+          for (var i in items) {
+            items_global[items[i].id] = items[i];
+          }
+          db.Visit.find({ restaurant: restaurant.id, user: uid }, function (err, visits) {
+            if (err) {
+              console.log(err);
+            }
+            if (visits) {
+              for (var j in visits) {
+                var visit = visits[j];
+                for (var k in visit.items) {
+                  visits[j].items[k] = items_global[visit.items[k]]
+                }
+              }
+              res.json(visits);
+            } else {
+              res.json({ result: false });
+            }
+          });
+        } else {
+          res.json({ result: false });
+        }
+      });
+    } else {
+      res.json({ result: false });
+    }
   });
 
 };
