@@ -13,7 +13,7 @@ exports.startNewVisit = function (io) {
       if (err) {
         console.log(err);
       }
-      db.Table.findByIdAndUpdate(tid, { status: 'waiting' }, function (err, table) {
+      db.Table.findByIdAndUpdate(tid, { status: 'just_in' }, function (err, table) {
         if (table) {
           res.json({ result: true });
           io.sockets.emit('new_table', { evt: 'new_table', table: tid });
@@ -64,8 +64,17 @@ exports.orderFood = function (io) {
             console.log(err);
           }
           if (visit) {
-            res.json({ result: true });
-            io.sockets.emit('food', { evt: 'food', items: items, table: visit.table })
+            db.Table.findByIdAndUpdate(visit.table, { status: 'waiting' }, function (err, table) {
+              if (err) {
+                console.log(err);
+              }
+              if (table) {
+                res.json({ result: true });
+                io.sockets.emit('food', { evt: 'food', items: items, table: visit.table })
+              } else {
+                res.json({ result: false });
+              }
+            });
           } else {
             res.json({ result: false });
           }
