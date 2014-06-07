@@ -32,6 +32,7 @@ var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
 var dashboardController = require('./controllers/dashboard');
 var restaurantController = require('./controllers/restaurant_controller');
+var adminStatsController = require('./controllers/admin_stats_controller');
 var visitController = require('./controllers/visit_controller');
 var itemController = require('./controllers/item_controller');
 
@@ -144,6 +145,8 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 
 // Dashboard
 app.get('/dashboard', passportConf.isAuthenticated, dashboardController.getDashboard);
+app.get('/dashboard/groups', passportConf.isAuthenticated, adminStatsController.getInitGroupOfTables);
+app.get('/dashboard/groups/details', passportConf.isAuthenticated, adminStatsController.getNumbersOfTableType);
 
 //Restaurant
 app.get('/restaurant/add', passportConf.isAuthenticated, restaurantController.displayGetForm);

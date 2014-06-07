@@ -15,7 +15,7 @@ exports.startNewVisit = function (req, res) {
         if (err) {
           console.log(err);
         }
-        db.Table.findByIdAndUpdate(tid, { status: 'just_in' }, function (err, table) {
+        db.Table.findByIdAndUpdate(tid, { status: 'waiting' }, function (err, table) {
           if (table) {
             res.json({ result: true });
           } else {
