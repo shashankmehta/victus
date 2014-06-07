@@ -148,7 +148,7 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 app.get('/dashboard', passportConf.isAuthenticated, dashboardController.getDashboard);
 app.get('/dashboard/groups', passportConf.isAuthenticated, adminStatsController.getInitGroupOfTables);
 app.get('/dashboard/groups/details', passportConf.isAuthenticated, adminStatsController.getNumbersOfTableType);
-app.get('/dashboard/user/top', passportConf.isAuthenticated, adminStatsController.getCurrentTopUsers);
+app.get('/dashboard/user/top', passportConf.isAuthenticated, adminStatsController.getCurrentUsers);
 app.get('/dashboard/user/details', passportConf.isAuthenticated, adminStatsController.getUserDetails);
 
 //Restaurant
