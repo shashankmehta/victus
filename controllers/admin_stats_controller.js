@@ -91,8 +91,7 @@ exports.getCurrentUsers = function (req, res) {
 
 exports.getUserDetails = function (req, res) {
   var admin = req.user.id;
-  var uid = admin;
-  // var uid = req.query.uid;
+  var uid = req.query.uid;
   var items_global = {};
   var matrix = [];
 
