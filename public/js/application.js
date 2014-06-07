@@ -17,6 +17,8 @@
 //= require lib/bootstrap.min
 //= require lib/handlebars
 //= require lib/masonry
+//= require lib/chart.min
+//= require lib/director.min
 //= require main
 //= require model
 //= require view
