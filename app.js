@@ -147,7 +147,7 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 app.get('/dashboard', passportConf.isAuthenticated, dashboardController.getDashboard);
 app.get('/dashboard/groups', passportConf.isAuthenticated, adminStatsController.getInitGroupOfTables);
 app.get('/dashboard/groups/details', passportConf.isAuthenticated, adminStatsController.getNumbersOfTableType);
-app.get('/dashboard/user/top', passportConf.isAuthenticated, adminStatsController.getTopUsers);
+app.get('/dashboard/user/top', passportConf.isAuthenticated, adminStatsController.getCurrentTopUsers);
 app.get('/dashboard/user/details', passportConf.isAuthenticated, adminStatsController.getUserDetails);
 
 //Restaurant
@@ -253,32 +253,28 @@ io.sockets.on('connection', function(socket){
 /**
  * Routes for user actions
  */
-  app.get('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit);
-  app.post('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit);
-  app.get('/visit/order', passportConf.isAuthenticated, visitController.orderFood(socket));
-  app.get('/visit/feedback', passportConf.isAuthenticated, visitController.giveFeedback);
-  app.get('/visit/delivered', passportConf.isAuthenticated, visitController.markResolved);
-
-  app.get('/visit/end', passportConf.isAuthenticated, visitController.endVisit);
-
-  app.get('/visit/payment', passportConf.isAuthenticated, visitController.callForCheck);
-  app.get('/visit/waiter', passportConf.isAuthenticated, visitController.callForWaiter);
-  app.get('/visit/menu', passportConf.isAuthenticated, visitController.listMenu);
-
 
   console.log('connected to client');
 
   socket.emit('test', { msg : 'Connected to server!' });
-
-  socket.on('feedback', function(response){
-    console.log(response);
-  });
 
   socket.on('disconnect', function(){
     console.log('Connection Lost');
   });
 
 });
+
+// POST
+app.get('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit(io));
+app.get('/visit/order', passportConf.isAuthenticated, visitController.orderFood(io));
+app.get('/visit/feedback', passportConf.isAuthenticated, visitController.giveFeedback(io));
+app.get('/visit/delivered', passportConf.isAuthenticated, visitController.markResolved);
+app.get('/visit/end', passportConf.isAuthenticated, visitController.endVisit);
+
+// GET
+app.get('/visit/payment', passportConf.isAuthenticated, visitController.callForCheck(io));
+app.get('/visit/waiter', passportConf.isAuthenticated, visitController.callForWaiter(io));
+app.get('/visit/menu', passportConf.isAuthenticated, visitController.listMenu);
 
 /**
  * Start Express server.
