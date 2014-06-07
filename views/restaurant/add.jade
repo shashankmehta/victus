@@ -5,7 +5,7 @@ block content
 		h3 Add a Restaurant
 
 	form.form-horizontal(method='POST')
-		
+
 		input(type='hidden', name='_csrf', value=_csrf)
 		.form-group
 			label.col-sm-2.control-label(for='name') Name
@@ -14,11 +14,11 @@ block content
 		.form-group
 			label.col-sm-2.control-label(for='address') Address
 			.col-sm-4
-				input.form-control(type='textbox', name='Address', id='Address', placeholder='Address of the Restaurant')
+				input.form-control(type='textbox', name='address', id='address', placeholder='Address of the Restaurant')
 		.form-group
-			label.col-sm-2.control-label(for='capacity') Capacity
+			label.col-sm-2.control-label(for='capacity') Number of Tables
 			.col-sm-4
-				input.form-control(type='number', name='Capacity', id='Capacity')
+				input.form-control(type='number', name='tables', id='tables')
 		.form-group
 			.col-sm-offset-2.col-sm-4
 				button.btn.btn.btn-primary(type='submit')

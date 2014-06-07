@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+  .page-header
+    h3 Add an item to your menu
+
+  form.form-horizontal(method='POST')
+
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.col-sm-2.control-label(for='name') Name
+      .col-sm-4
+        input.form-control(type='text', name='name', id='name', placeholder='Name of the Item', required='true')
+    .form-group
+      label.col-sm-2.control-label(for='address') Price
+      .col-sm-4
+        input.form-control(type='textbox', name='Price', id='Price', placeholder='Price of the Item')
+    .form-group
+      label.col-sm-2.control-label(for='capacity') Tags
+      .col-sm-4
+        input.form-control(type='textbox', name='tags', id='tags', placeholder='Separate the tags using ", "')
+    .form-group
+      .col-sm-offset-2.col-sm-4
+        button.btn.btn.btn-primary(type='submit')
+          i.fa.fa-magnet
+          | Add
+

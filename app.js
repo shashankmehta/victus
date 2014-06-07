@@ -32,7 +32,9 @@ var contactController = require('./controllers/contact');
 var dashboardController = require('./controllers/dashboard');
 var userActionsController = require('./controllers/user_actions');
 var managerActionsController = require('./controllers/manager_actions');
-var restaurantController = require('./controllers/restaurant');
+var restaurantController = require('./controllers/restaurant_controller');
+var visitController = require('./controllers/visit_controller');
+var itemController = require('./controllers/item_controller');
 
 /**
  * API keys and Passport configuration.
@@ -141,8 +143,11 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 app.get('/dashboard', passportConf.isAuthenticated, dashboardController.getDashboard);
 
 //Restaurant
-app.get('/restaurant/add', passportConf.isAuthenticated, restaurantController.getRestaurantAdd);
-app.post('/restaurant/add', passportConf.isAuthenticated, restaurantController.postRestaurantAdd);
+app.get('/restaurant/add', passportConf.isAuthenticated, restaurantController.displayGetForm);
+app.post('/restaurant/add', passportConf.isAuthenticated, restaurantController.saveRestaurant);
+
+app.get('/item/add', passportConf.isAuthenticated, itemController.displayGetForm);
+app.post('/item/add', passportConf.isAuthenticated, itemController.saveItem);
 
 /**
  * API examples routes.
