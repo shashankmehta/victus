@@ -35,6 +35,7 @@ var restaurantController = require('./controllers/restaurant_controller');
 var adminStatsController = require('./controllers/admin_stats_controller');
 var visitController = require('./controllers/visit_controller');
 var itemController = require('./controllers/item_controller');
+var userStatsController = require('./controllers/user_stats')
 
 /**
  * API keys and Passport configuration.
@@ -159,6 +160,9 @@ app.post('/item/add', passportConf.isAuthenticated, itemController.saveItem);
 
 //Song Request
 app.get('/song_request', passportConf.isAuthenticated, restaurantController.getSongRequest);
+
+//User Statistics
+app.get('/user/stats', passportConf.isAuthenticated, userStatsController.getUserStats);
 
 /**
  * API examples routes.
