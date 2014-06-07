@@ -26,7 +26,7 @@ exports.startNewVisit = function (io) {
 };
 
 exports.endVisit = function (req, res) {
-  var tid = req.body.table;
+  var tid = req.post.table;
   var time = new Date().getTime();
   db.Visit.findOne({ table: tid }, function (err, visit) {
     if (visit) {
