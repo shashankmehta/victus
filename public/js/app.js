@@ -4,6 +4,7 @@ app.cache = {};
 
 $(document).ready(function(){
 	var view = new app.view.TableGroups;
+	var cust = new app.view.TopCustomers;
 
 	setTimeout(function(){
 		new app.view.Order({

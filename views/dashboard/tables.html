@@ -21,3 +21,20 @@
 		<p class="empty">No content</p>
 	{{/each}}
 </script>
+
+<script class="script-customers" type="text/template">
+	<h3>Current Customers</h3>
+	<ul>
+		{{#each users}}
+			<li>
+				<div class="user loyalty-{{level}}">
+					<i class="fa fa-user"></i> 
+					<div class="loyalty loyalty-{{level}}">
+						<div class="meter loyalty-{{level}}"></div>
+					</div>
+				</div>
+				{{name}}
+			</li>
+		{{/each}}
+	</ul>
+</script>

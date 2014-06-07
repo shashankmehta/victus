@@ -82,7 +82,7 @@ app.view = {
 			}
 		}
 
-		app.model.getAllGroups(view.init);
+		app.model.groups.getAll(view.init);
 		return view;
 	},
 
@@ -117,7 +117,7 @@ app.view = {
 			}
 		}
 
-		app.model.getGroupDetails(type, view.init);
+		app.model.groups.getDetails(type, view.init);
 		return view;
 	},
 
@@ -135,19 +135,35 @@ app.view = {
 			},
 
 			markResolved: function(){
-				// app.api.post('order', {
-				// 	order_id: view.data.order_id,
-				// 	action: 'resolved'
-				// }, function(){
+				var data = {
+					order_id: view.data.order_id,
+					action: 'resolved'
+				}
+
+				app.model.orders.markResolved(data, function(){
 					view.$el.fadeOut(500, function(){
 						view.$el.remove()
 					});
-				// });
-				
+				});
 			}
 		}
 
 		view.init(data);
 		return view;
+	},
+
+	TopCustomers: function(){
+		var view = {
+			init: function(data){
+				var parent = '.topCustomers';
+				var page = new app.View('.script-customers', parent, {data: data});
+				for (var key in page){
+					view[key] = page[key];
+				}
+				view.data = data;
+			}
+		}
+
+		app.model.users.getTop(view.init);
 	}
 }

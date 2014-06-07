@@ -65,28 +65,30 @@ app.model = {
 		getTop: function(callback){
 			// app.api.get('/users/top', callback);
 			
-			var data = [
-				{
-					user_id: 1,
-					name: 'Shashank Mehta',
-					loyalty: 5
-				},
-				{
-					user_id: 2,
-					name: 'Ashwini Khare',
-					loyalty: 3
-				},
-				{
-					user_id: 3,
-					name: 'Divij Bindlish',
-					loyalty: 4
-				},
-				{
-					user_id: 4,
-					name: 'Abhishek Kandoi',
-					loyalty: 1
-				}
-			]
+			var data = {
+				users: [
+					{
+						user_id: 1,
+						name: 'Shashank Mehta',
+						level: 5
+					},
+					{
+						user_id: 3,
+						name: 'Divij Bindlish',
+						level: 4
+					},
+					{
+						user_id: 2,
+						name: 'Ashwini Khare',
+						level: 3
+					},
+					{
+						user_id: 4,
+						name: 'Abhishek Kandoi',
+						level: 1
+					}
+				]
+			}
 
 			callback(data);
 		}
