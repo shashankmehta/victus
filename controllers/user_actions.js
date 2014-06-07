@@ -21,7 +21,7 @@ var actions = {
     Visit.find({ restaurant: rid, table: tid, ended_at: null }, function (err, docs) {
       if (docs.length === 0) {
         // New visit
-        var v = new Visit({ restaurant: rid, table: tid, users: [uid], bill: 0.0, tip: 0.0, started_at: t, ended_at: null });
+        var v = new Visit({ restaurant: rid, table: tid, users: [uid], items: [], bill: 0.0, tip: 0.0, started_at: t, ended_at: null });
         v.save(function (err) {
           if (err) {
             console.log(err);
@@ -42,7 +42,17 @@ var actions = {
   },
 
   orderFood: function (req, res) {
-    // Required: rid, tid, fid, quantity
+    // Required: fid, quantity
+    var uid = req.user.id;
+    var fid = req.query.fid;
+    var quantity = req.query.quantity;
+
+    Visit.findOne({ users: { $in: [uid] }, ended_at: null })
+      .populate('items')
+      .exec(function (err, visit) {
+        console.log(visit);
+      });
+    res.json({message: "hello, world"});
   },
 
   makeReservation: function (req, res) {
@@ -69,12 +79,8 @@ var actions = {
     // Required: rid, tid
   },
 
-  queueMusic: function (req, res) {
-    // Required: rid, tid, music_id
-  },
-
-  checkForAvailableTable: function (req, res) {
-    // Required: rid, number of people, time
+  fetchMenu: function (req, res) {
+    // Required: rid
   }
 };
 
