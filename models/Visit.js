@@ -8,7 +8,7 @@ var Restaurant = require('./Restaurant');
 var visitSchema = new mongoose.Schema({
   restaurant: String,
   table: String,
-  users: String,
+  user: String,
   items: String,
   bill: Number,
   tip: Number,

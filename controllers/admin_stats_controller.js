@@ -28,4 +28,18 @@ exports.getNumbersOfTableType = function (req, res) {
       res.json(tables);
     });
   });
-}
+};
+
+exports.getTopUsers = function (req, res) {
+  var admin = req.user.id;
+  var uid = req.query.uid;
+
+
+};
+
+exports.getUserDetails = function (req, res) {
+  var admin = req.user.id;
+  var uid = req.query.uid;
+
+
+};
