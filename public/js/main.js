@@ -14,6 +14,16 @@ $(document).ready(function() {
   socket.on('waiter', function (data) {
     // Insert waiter notification here
     console.log('Someone asked for a waiter');
+    if($('.custom_modal').is(':visible')){
+      $('.custom_modal .content .text').append('<br>Table #'+data.table+' requested for a waiter');
+    }
+    else {
+      $('.custom_modal .content .text').html('Table #'+data.table+' requested for a waiter');
+      $('.custom_modal').fadeIn(200);
+      $('.custom_modal .btn').click(function(){
+        $('.custom_modal').fadeOut(200);
+      })
+    }
   });
 
   socket.on('food', function (data) {

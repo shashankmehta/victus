@@ -52,6 +52,7 @@ View.prototype.render = function(){
 
 // Expose View function
 app.View = View;
+var socket = io.connect('/');
 
 app.view = {
 	TableGroups: function(){
@@ -69,6 +70,19 @@ app.view = {
 				}
 			},
 
+			socketCatch: function(){
+				socket.on('food', function (data){
+					if(view.data.new >= 1){
+						view.data.new--;
+						view.data.waiting++;
+						view.$('.set[data-type="new"] .number').text(view.data.new);
+						view.$('.set[data-type="waiting"] .number').text(view.data.waiting);
+						// TODO
+						// Show the order
+					}
+				});
+			},
+
 			init: function(data){
 				var page = new app.View('.script-table-groups', parent, {data: data});
 				for (var key in page){
@@ -79,6 +93,8 @@ app.view = {
 				view.$('.set').click(function(){
 					view.showGroupDetails(this);
 				});
+
+				view.socketCatch();
 			}
 		}
 
