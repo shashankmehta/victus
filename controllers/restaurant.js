@@ -18,7 +18,7 @@ exports.getRestaurantAdd = function(req, res){
  */
 exports.postRestaurantAdd = function(req, res){
 
-	req.assert('name', 'Name field cannot be left blank').isEmpty();
+	req.assert('name', 'Name field cannot be left blank').notEmpty();
 
   var errors = req.validationErrors();
 
@@ -38,10 +38,11 @@ exports.postRestaurantAdd = function(req, res){
   	console.log(err);
   })
 
+  req.flash('success', { msg : 'Restaurant successfully added' });
+
   //Restaurant is saved, redirect to /dashboard
-  res.render('dashboard/index',{
-  	title : 'Dashboard'
-  })
+
+  res.redirect('/dashboard');
 
 }
 
