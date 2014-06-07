@@ -30,6 +30,7 @@ var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
 var dashboardController = require('./controllers/dashboard');
+var userActionsController = require('./controllers/user_actions');
 
 /**
  * API keys and Passport configuration.
@@ -210,6 +211,11 @@ app.get('/auth/venmo', passport.authorize('venmo', { scope: 'make_payments acces
 app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '/api' }), function(req, res) {
   res.redirect('/api/venmo');
 });
+
+/**
+ * Routes for user actions
+ */
+app.get('/action/book', passportConf.isAuthenticated, userActionsController.makeReservation);
 
 /**
  * 500 Error Handler.
