@@ -6,8 +6,8 @@ var restaurantSchema = new mongoose.Schema({
   name: String,
   address: String,
   numTables: Number,
-  tables: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Table' }],
-  admin: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  tables: Array,
+  admin: String
 });
 
 module.exports = mongoose.model('Restaurant', restaurantSchema);

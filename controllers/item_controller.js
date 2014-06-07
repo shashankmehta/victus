@@ -29,15 +29,14 @@ exports.saveItem = function (req, res) {
       restaurant: restaurant.id
     });
 
-    item.save(function (err) {
+    item.save(function (err, item) {
       if (err) {
         console.log(err);
       }
+      console.log(item);
     });
 
     req.flash('success', { msg : 'Item successfully added' });
-
-    //Item is saved, redirect to /dashboard
 
     res.redirect('/item/add');
 

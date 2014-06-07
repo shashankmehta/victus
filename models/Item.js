@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Restaurant = require('./Restaurant');
 
 var itemSchema = new mongoose.Schema({
-  restaurant: { type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant'},
+  restaurant: String,
   name: String,
   tags: Array,
   price: Number

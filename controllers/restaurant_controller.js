@@ -15,7 +15,7 @@ exports.displayGetForm = function(req, res){
  * POST /restaurant/add
  * Form submission of restaurant
  */
-exports.saveRestaurant = function(req, res){
+exports.saveRestaurant = function (req, res) {
 
   req.assert('name', 'Name field cannot be left blank').notEmpty();
 
@@ -49,14 +49,16 @@ exports.saveRestaurant = function(req, res){
         if (err) {
           console.log(err);
         }
+        restaurant.tables.push(table.id);
+        if (restaurant.tables.length == req.body.tables) {
+          restaurant.save(function (err, restaurant) {
+            console.log(restaurant);
+            req.flash('success', { msg : 'Restaurant successfully added' });
+            res.redirect('/dashboard');
+          });
+        }
       });
     }
-  })
+  });
 
-  req.flash('success', { msg : 'Restaurant successfully added' });
-
-  //Restaurant is saved, redirect to /dashboard
-
-  res.redirect('/dashboard');
-
-}
+};

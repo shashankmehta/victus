@@ -30,8 +30,6 @@ var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
 var dashboardController = require('./controllers/dashboard');
-var userActionsController = require('./controllers/user_actions');
-var managerActionsController = require('./controllers/manager_actions');
 var restaurantController = require('./controllers/restaurant_controller');
 var visitController = require('./controllers/visit_controller');
 var itemController = require('./controllers/item_controller');
@@ -226,15 +224,18 @@ app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '
 /**
  * Routes for user actions
  */
-app.get('/action/init', passportConf.isAuthenticated, userActionsController.startProcedure);
-app.get('/action/check', passportConf.isAuthenticated, userActionsController.askForCheck);
-app.get('/action/waiter', passportConf.isAuthenticated, userActionsController.callForWaiter);
-app.get('/action/menu', passportConf.isAuthenticated, userActionsController.fetchMenu);
-app.get('/action/food', passportConf.isAuthenticated, userActionsController.orderFood);
-app.get('/action/reserve', passportConf.isAuthenticated, userActionsController.makeReservation);
-app.get('/action/feedback', passportConf.isAuthenticated, userActionsController.giveFeedback);
+app.get('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit);
+app.post('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit);
+app.post('/visit/order', passportConf.isAuthenticated, visitController.orderFood);
+app.post('/visit/feedback', passportConf.isAuthenticated, visitController.giveFeedback);
 
-app.get('/manage/random', passportConf.isAuthenticated, managerActionsController.addMenuItem);
+app.post('/visit/end', passportConf.isAuthenticated, visitController.endVisit);
+
+app.get('/visit/payment', passportConf.isAuthenticated, visitController.callForCheck);
+app.get('/visit/waiter', passportConf.isAuthenticated, visitController.callForWaiter);
+app.get('/visit/menu', passportConf.isAuthenticated, visitController.listMenu);
+
+// app.get('/action/reserve', passportConf.isAuthenticated, userActionsController.makeReservation);
 
 /**
  * 500 Error Handler.

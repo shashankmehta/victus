@@ -6,10 +6,10 @@ var User = require('./User');
 var Restaurant = require('./Restaurant');
 
 var visitSchema = new mongoose.Schema({
-  restaurant: { type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' },
-  table: { type: mongoose.Schema.Types.ObjectId, ref: 'Table' },
-  users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item' }],
+  restaurant: String,
+  table: String,
+  users: String,
+  items: String,
   bill: Number,
   tip: Number,
   started_at: Number,
