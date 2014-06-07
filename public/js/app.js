@@ -1,5 +1,11 @@
 window.app = window.app || {};
 
+app.helpers = {
+	clear: function(){
+		$('.main').html('');
+	}
+}
+
 app.cache = {};
 app.orders = 1;
 
@@ -7,6 +13,7 @@ $(document).ready(function(){
 
 	var routes = {
 		'/': function(){
+			app.helpers.clear();
 			var template = Handlebars.compile($('.script-main-page').html());
 			var view = template();
 			$('.main').append(view);
@@ -114,6 +121,7 @@ $(document).ready(function(){
 		},
 
 		'/stats': function(){
+			app.helpers.clear();
 			new app.view.Stats;
 		}
 	};

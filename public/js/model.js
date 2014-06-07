@@ -95,5 +95,35 @@ app.model = {
 
 			callback(data);
 		}
+	},
+
+	stats: {
+		getWeekly: function(callback){
+			// app.api.get('stats/weekly', callback);
+			var data = {0: [], 1: []};
+			for(var i = 0; i<7; i++){
+				data[0].push(Math.ceil(Math.random()*100));
+				data[1].push(Math.ceil(Math.random()*100));
+			}
+
+			callback(data);
+		},
+
+		getMonthly: function(callback){
+			// app.api.get('stats/weekly', callback);
+			var data = {0: [], 1: []};
+			for(var i = 0; i<30; i++){
+				data[0].push(Math.ceil(Math.random()*100));
+				data[1].push(Math.ceil(Math.random()*100));
+			}
+
+			callback(data);
+		},
+
+		getVisitTypes: function(callback){
+			// app.api.get('stats/visit', callback);
+			var data = [Math.ceil(Math.random()*100), Math.ceil(Math.random()*100)];
+			callback(data);
+		}
 	}
 }
