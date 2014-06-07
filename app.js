@@ -234,20 +234,7 @@ app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '
   res.redirect('/api/venmo');
 });
 
-/**
- * Routes for user actions
- */
-app.get('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit);
-app.post('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit);
-app.post('/visit/order', passportConf.isAuthenticated, visitController.orderFood);
-app.post('/visit/feedback', passportConf.isAuthenticated, visitController.giveFeedback);
-app.post('/visit/delivered', passportConf.isAuthenticated, visitController.markResolved);
 
-app.post('/visit/end', passportConf.isAuthenticated, visitController.endVisit);
-
-app.get('/visit/payment', passportConf.isAuthenticated, visitController.callForCheck);
-app.get('/visit/waiter', passportConf.isAuthenticated, visitController.callForWaiter);
-app.get('/visit/menu', passportConf.isAuthenticated, visitController.listMenu);
 
 // app.get('/action/reserve', passportConf.isAuthenticated, userActionsController.makeReservation);
 
@@ -262,6 +249,22 @@ app.use(errorHandler());
  */
 
 io.sockets.on('connection', function(socket){
+
+/**
+ * Routes for user actions
+ */
+  app.get('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit);
+  app.post('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit);
+  app.get('/visit/order', passportConf.isAuthenticated, visitController.orderFood(socket));
+  app.get('/visit/feedback', passportConf.isAuthenticated, visitController.giveFeedback);
+  app.get('/visit/delivered', passportConf.isAuthenticated, visitController.markResolved);
+
+  app.get('/visit/end', passportConf.isAuthenticated, visitController.endVisit);
+
+  app.get('/visit/payment', passportConf.isAuthenticated, visitController.callForCheck);
+  app.get('/visit/waiter', passportConf.isAuthenticated, visitController.callForWaiter);
+  app.get('/visit/menu', passportConf.isAuthenticated, visitController.listMenu);
+
 
   console.log('connected to client');
 

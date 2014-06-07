@@ -44,30 +44,32 @@ exports.endVisit = function (req, res) {
   });
 };
 
-exports.orderFood = function (req, res) {
-  var uid = req.user.id;
-  var items = JSON.parse(req.body.items);
-  db.Visit.findOne({ user: uid, ended_at: null }, function (err, visit) {
-    // We have the visit
-    if (err) {
-      console.log(err);
-    }
-    if (visit) {
-      db.Visit.findByIdAndUpdate(visit.id, { "items": items }, function (err, visit) {
-        if (err) {
-          console.log(err);
-        }
-        if (visit) {
-          res.json({ result: true });
-          // Broadcast socket.io event here
-        } else {
-          res.json({ result: false });
-        }
-      });
-    } else {
-      res.json({ result: false });
-    }
-  });
+exports.orderFood = function(socket){
+  return function (req, res) {
+    var uid = req.user.id;
+    var items = JSON.parse(req.query.items);
+    db.Visit.findOne({ user: uid, ended_at: null }, function (err, visit) {
+      // We have the visit
+      if (err) {
+        console.log(err);
+      }
+      if (visit) {
+        db.Visit.findByIdAndUpdate(visit.id, { "items": items }, function (err, visit) {
+          if (err) {
+            console.log(err);
+          }
+          if (visit) {
+            res.json({ result: true });
+            socket.emit('test', { item_id : items, tableId : visit.table })
+          } else {
+            res.json({ result: false });
+          }
+        });
+      } else {
+        res.json({ result: false });
+      }
+    });
+  }
 };
 
 exports.callForWaiter = function (req, res) {
