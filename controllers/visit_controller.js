@@ -60,26 +60,22 @@ exports.endVisit = function (req, res) {
 
 exports.orderFood = function (req, res) {
   var uid = req.user.id;
-  var item = req.body.item;
+  var items = JSON.parse(req.body.items);
   db.Visit.findOne({ users: { $in: [uid] }, ended_at: null }, function (err, visit) {
     // We have the visit
     if (err) {
       console.log(err);
     }
-    db.Item.findById(item, function (err, item) {
-      // We have the item
+    db.Visit.findByIdAndUpdate(visit.id, { "items": items }, function (err, visit) {
       if (err) {
         console.log(err);
       }
-      db.Visit.findByIdAndUpdate(visit.id, { $push: { "items": item.id }, bill: visit.bill + item.price }, function (err, visit) {
-        // We add the item and update the bill
-        if (visit) {
-          res.json({ result: true });
-        } else {
-          res.json({ result: false });
-        }
+      if (visit) {
+        res.json({ result: true });
         // Broadcast socket.io event here
-      });
+      } else {
+        res.json({ result: false });
+      }
     });
   });
 };
