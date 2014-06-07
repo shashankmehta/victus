@@ -77,8 +77,8 @@ app.view = {
 						view.data.waiting++;
 						view.$('.set[data-type="new"] .number').text(view.data.new);
 						view.$('.set[data-type="waiting"] .number').text(view.data.waiting);
-						// TODO
-						// Show the order
+						
+						new app.view.Order(data);
 					}
 				});
 			},
@@ -160,9 +160,9 @@ app.view = {
 				}
 
 				app.model.orders.markResolved(data, function(){
-					view.$el.fadeOut(500, function(){
-						view.$el.remove()
-					});
+					var $container = $('.orders .box');
+					$container.masonry('remove', view.$el);
+					$('.orders .box').masonry();
 				});
 			}
 		}
