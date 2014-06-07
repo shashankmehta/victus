@@ -9,6 +9,9 @@ $(document).ready(function() {
   socket.on('feedback', function (data) {
     // Insert feedback notification here
     console.log('Someone gave feedback');
+    var count = Number($('.feedback .count').text()) + 1;
+    $('.feedback .count').text(count);
+    $('.feedback .fa').css('color','#E74C3C');
   });
 
   socket.on('waiter', function (data) {
