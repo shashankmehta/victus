@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
 var visitSchema = new mongoose.Schema({
-  restaurant: Number,
-  table: Number,
+  restaurant: String,
+  table: String,
   users: Array,
   bill: Number,
   tip: Number,
