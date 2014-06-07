@@ -228,6 +228,7 @@ app.get('/visit/start', passportConf.isAuthenticated, visitController.startNewVi
 app.post('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit);
 app.post('/visit/order', passportConf.isAuthenticated, visitController.orderFood);
 app.post('/visit/feedback', passportConf.isAuthenticated, visitController.giveFeedback);
+app.post('/visit/delivered', passportConf.isAuthenticated, visitController.markResolved);
 
 app.post('/visit/end', passportConf.isAuthenticated, visitController.endVisit);
 

@@ -16,7 +16,11 @@ exports.startNewVisit = function (req, res) {
           console.log(err);
         }
         db.Table.findByIdAndUpdate(tid, { status: 'just_in' }, function (err, table) {
-          res.json({ result: true });
+          if (table) {
+            res.json({ result: true });
+          } else {
+            res.json({ result: false });
+          }
         });
       });
     } else {
@@ -25,7 +29,11 @@ exports.startNewVisit = function (req, res) {
         if (err) {
           console.log(err);
         }
-        res.json({ result: true });
+        if (visit) {
+          res.json({ result: true });
+        } else {
+          res.json({ result: false });
+        }
       });
     }
   });
@@ -40,7 +48,11 @@ exports.endVisit = function (req, res) {
         console.log(err);
       }
       db.Table.findByIdAndUpdate(table, { status: 'free' }, function (err, table) {
-        res.json({ result: true });
+        if (table) {
+          res.json({ result: true });
+        } else {
+          res.json({ result: false });
+        }
       })
     });
   });
@@ -61,7 +73,11 @@ exports.orderFood = function (req, res) {
       }
       db.Visit.findByIdAndUpdate(visit.id, { $push: { "items": item.id }, bill: visit.bill + item.price }, function (err, visit) {
         // We add the item and update the bill
-        res.json({ result: true });
+        if (visit) {
+          res.json({ result: true });
+        } else {
+          res.json({ result: false });
+        }
         // Broadcast socket.io event here
       });
     });
@@ -75,8 +91,26 @@ exports.callForWaiter = function (req, res) {
     if (err) {
       console.log(err);
     }
-    res.send({ result: true });
+    if (visit) {
+      res.send({ result: true });
+    } else {
+      res.send({ result: false });
+    }
     // Broadcast socket.io event here
+  });
+};
+
+exports.markResolved = function (req, res) {
+  var tid = req.body.table;
+  db.Table.findByIdAndUpdate(tid, { status: 'eating' }, function (err, table) {
+    if (err) {
+      console.log(err);
+    }
+    if (table) {
+      res.json({ result: true });
+    } else {
+      res.json({ result: false });
+    }
   });
 };
 
@@ -84,10 +118,16 @@ exports.callForCheck = function (req, res) {
   var uid = req.user.id;
   db.Visit.findOne({ users: { $in: [uid] }, ended_at: null }, function (err, visit) {
     // We have the visit
-    if (err) {
-      console.log(err);
-    }
-    res.json({ amount: visit.bill + 0.125 * visit.bill });
+    db.Table.findByIdAndUpdate(visit.table, { status: 'billing' }, function (err, table) {
+      if (err) {
+        console.log(err);
+      }
+      if (table) {
+        res.json({ result: true, amount: visit.bill + 0.125 * visit.bill });
+      } else {
+        res.json({ result: false });
+      }
+    });
     // Broadcast socket.io event here
   });
 };
@@ -103,12 +143,19 @@ exports.giveFeedback = function (req, res) {
     var feedback = new db.Feedback({
       user: uid,
       visit: visit.id,
-      restaurant: visit.restaurant.id,
+      restaurant: visit.restaurant,
       feedback: feedback
     });
 
-    feedback.save(function (err) {
-      console.log(err);
+    feedback.save(function (err, feedback) {
+      if (err) {
+        console.log(err);
+      }
+      if (feedback) {
+        res.json({ result: true });
+      } else {
+        res.json({ result: false });
+      }
     });
   });
 };
