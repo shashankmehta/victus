@@ -70,7 +70,16 @@ exports.orderFood = function (io) {
               }
               if (table) {
                 res.json({ result: true });
-                io.sockets.emit('food', { evt: 'food', items: items, table: visit.table })
+                var arr = [];
+                for (var i in items) {
+                  var item = items[i];
+                  db.Item.findById(item, function (err, itemObj) {
+                    arr.push(itemObj);
+                    if (arr.length === items.length) {
+                      io.sockets.emit('food', { evt: 'food', items: arr, table: visit.table })
+                    }
+                  });
+                }
               } else {
                 res.json({ result: false });
               }
