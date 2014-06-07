@@ -31,6 +31,7 @@ var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
 var dashboardController = require('./controllers/dashboard');
 var userActionsController = require('./controllers/user_actions');
+var restaurantController = require('./controllers/restaurant');
 
 /**
  * API keys and Passport configuration.
@@ -137,6 +138,10 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 
 // Dashboard
 app.get('/dashboard', passportConf.isAuthenticated, dashboardController.getDashboard);
+
+//Restaurant
+app.get('/restaurant/add', passportConf.isAuthenticated, restaurantController.getRestaurantAdd);
+app.post('/restaurant/add', passportConf.isAuthenticated, restaurantController.postRestaurantAdd);
 
 /**
  * API examples routes.

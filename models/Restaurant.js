@@ -5,7 +5,9 @@ var restaurantSchema = new mongoose.Schema({
 	name : 'String',
 	address : 'String',
 	capacity : Number,
-	rid : { type: Number, default : 1},
 	adminEmail : 'String'
 
 })
+
+module.exports = mongoose.model('Restaurant', restaurantSchema);
+
