@@ -17,5 +17,6 @@
 //= require lib/bootstrap.min
 //= require lib/handlebars
 //= require main
+//= require model
 //= require view
 //= require app

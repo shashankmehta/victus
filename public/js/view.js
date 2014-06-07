@@ -17,7 +17,8 @@ function View(templateClass, parent, options) {
 
 	var source = $(this.templateClass).html();
 
-	this.template = Handlebars.compile(source, data);
+	this.template = Handlebars.compile(source);
+	this.view = this.template(data);
 	this.templateClass = '.' + this.templateClass.substr(8);
 
 	return this.render(parent);
@@ -31,11 +32,11 @@ View.prototype.render = function(){
 
 	if(this.position == 'append'){
 		$(this.parent).append('<div class="' + this.templateClass.substr(1) + '"></div>');
-		this.$el = $(this.templateClass).last().append(this.template);
+		this.$el = $(this.templateClass).last().append(this.view);
 	}
 	else if(this.position == 'prepend'){
 		$(this.parent).prepend('<div class="' + this.templateClass.substr(1) + '"></div>');
-		this.$el = $(this.templateClass).first().append(this.template);
+		this.$el = $(this.templateClass).first().append(this.view);
 	}
 
 	var that = this;
@@ -53,9 +54,70 @@ View.prototype.render = function(){
 app.View = View;
 
 app.view = {
-	Tables: function(){
-		var parent = '.container';
+	TableGroups: function(){
+		var parent = '.main';
 
-		var view = new app.View('.script-tables', parent);
+		var view = {
+			showGroupDetails: function(obj){
+				var type = $(obj).data('type')
+				
+				if(view.$('.group-details').length != 0){
+					view.childView.animateOut();
+				}
+				else {
+					view.childView = new app.view.TableGroupDetails(type);
+				}
+			},
+
+			init: function(data){
+				var page = new app.View('.script-table-groups', parent, {data: data});
+				for (var key in page){
+					view[key] = page[key];
+				}
+				view.data = data;
+
+				view.$('.set').click(function(){
+					view.showGroupDetails(this);
+				});
+			}
+		}
+
+		app.model.getAllGroups(view.init);
+		return view;
+	},
+
+	TableGroupDetails: function(type){
+		var parent = '.table-groups';
+
+		var view = {
+			init: function(data){
+				var page = new app.View('.script-group-details', parent, {data: data});
+				for (var key in page){
+					view[key] = page[key];
+				}
+				view.data = data;
+				view.height = view.$el.height();
+				view.animateIn();	
+			},
+
+			animateIn: function(){
+				view.$el.height(0);
+				view.$el.animate({'height': view.height}, 500);
+			},
+
+			animateOut: function(){
+				view.$el.animate({
+					'height': 0
+				}, {
+					duration: 500,
+					complete: function(){
+						view.$el.remove();
+					}
+				});
+			}
+		}
+
+		app.model.getGroupDetails(type, view.init);
+		return view;
 	}
 }

@@ -1,3 +1,23 @@
-<script class="script-tables" type="text/template">
+<script class="script-table-groups" type="text/template">
 	<h2>Tables</h2>
+	<div class="set" data-type="new">
+		<h4>Just In</h4>
+		<p class="number">{{new}}</p>
+	</div>
+	<div class="set" data-type="waiting">
+		<h4>Waiting</h4>
+		<p class="number">{{waiting}}</p>
+	</div>
+	<div class="set" data-type="eating">
+		<h4>Eating</h4>
+		<p class="number">{{eating}}</p>
+	</div>
+</script>
+
+<script class="script-group-details" type="text/template">
+	{{#each tables}}
+		<span>Table #{{this}}</span>
+	{{else}}
+		<p class="empty">No content</p>
+	{{/each}}
 </script>
