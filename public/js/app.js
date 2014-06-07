@@ -1,10 +1,18 @@
 window.app = window.app || {};
 
 app.cache = {};
+app.orders = 1;
 
 $(document).ready(function(){
 	var view = new app.view.TableGroups;
 	var cust = new app.view.TopCustomers;
+
+	var width = $('.orders .box').width();
+	var $container = $('.orders .box');
+	$container.masonry({
+		columnWidth: width/2,
+		itemSelector: '.order'
+	});	
 
 	setTimeout(function(){
 		new app.view.Order({
@@ -15,6 +23,10 @@ $(document).ready(function(){
 				{
 					name: 'Garlic Chicken',
 					quantity: '2'
+				},
+				{
+					name: 'Mixed Veg',
+					quantity: '1'
 				},
 				{
 					name: 'Mixed Veg',
@@ -74,4 +86,22 @@ $(document).ready(function(){
 			]
 		})
 	}, 3200);
+
+	setTimeout(function(){
+		new app.view.Order({
+			order_id: 15,
+			table: 12,
+			level: 3,
+			items: [
+				{
+					name: 'Garlic Chicken',
+					quantity: '2'
+				},
+				{
+					name: 'Mixed Veg',
+					quantity: '1'
+				}
+			]
+		})
+	}, 4200);
 });

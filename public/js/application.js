@@ -16,6 +16,7 @@
 //= require lib/jquery-2.1.1.min
 //= require lib/bootstrap.min
 //= require lib/handlebars
+//= require lib/masonry
 //= require main
 //= require model
 //= require view

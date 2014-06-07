@@ -36,17 +36,20 @@ app.model = {
 
 	groups: {
 		getAll: function(callback){
-			// app.api.get('allStatus');
+			// app.api.get('groups/details');
 			var data = {
-				'new': 3,
+				'new': 2,
 				'waiting': 5,
-				'eating': 7
+				'eating': 7,
+				'billing': 4,
+				'free': 3
 			}
 
 			callback(data);
 		},
 
 		getDetails: function(type, callback){
+			// app.api.get('groups/details', callback);
 			var data = {
 				tables: [1, 2, 5]
 			}

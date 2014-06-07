@@ -124,12 +124,15 @@ app.view = {
 	Order: function(data){
 		var view = {
 			init: function(data){
-				var parent = '.orders';
+				var parent = '.orders .box';
 				var page = new app.View('.script-order', parent, {data: data});
 				for (var key in page){
 					view[key] = page[key];
 				}
 				view.data = data;
+
+				$('.orders .box')
+					.masonry('appended', view.$el);
 
 				view.$('a').click(view.markResolved);
 			},
