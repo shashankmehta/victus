@@ -1,7 +1,12 @@
 <style>
+h2{margin: 0px;}
 h3{margin:0px;}
 div.col-xs-2{
 	margin-bottom:5%;
+}
+.filters .col-xs-2{
+	margin-bottom: 2%;
+	padding:0px;
 }
 input[type="checkbox"]{
 	zoom: 2.5;
@@ -16,6 +21,15 @@ div.sticky-bottom{
 	left:0px;
 	line-height: 40px;
 }
+div.filters div{
+	text-transform:uppercase;
+	text-align:center;
+	line-height: 50px;
+	font-size:0.7em;
+}
+.filter:hover{
+	curor: pointer;
+}
 </style>
 
 <script class="script-main-page" type="text/template">
@@ -27,10 +41,14 @@ div.sticky-bottom{
 </script>
 
 <script class="script-menu" type="text/template">
-	<div class="filters">
-		<span class="filter" data-filter="all">all</span>
+	<div class="filters row">
+		<div class = "col-xs-2">
+			<span class="filter" data-filter="all">all</span>
+		</div>
 		{{#each unique_tags}}
+		<div class="col-xs-2">
 			<span class="filter" data-filter="{{this}}">{{this}}</span>
+		</div>
 		{{/each}}
 	</div>
 	<h2 class="text-center">Menu</h2>
@@ -59,7 +77,9 @@ div.sticky-bottom{
 			<input type="range" name="quantity[{{item_id}}]" data-itemid="{{item_id}}" value="{{quantity}}">
 		</div>
 	{{/each}}
-	<button class="submit">Place Order</button>
+	<center>
+		<button class="submit" class="btn btn-primary btn-lg">Place Order</button>
+	</center>
 </script>
 
 <div class="promotion sticky-bottom text-center">
