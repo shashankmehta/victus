@@ -275,7 +275,7 @@ io.sockets.on('connection', function(socket){
 app.get('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit(io));
 app.get('/visit/order', passportConf.isAuthenticated, visitController.orderFood(io));
 app.get('/visit/feedback', passportConf.isAuthenticated, visitController.giveFeedback(io));
-app.get('/visit/delivered', passportConf.isAuthenticated, visitController.markResolved);
+app.get('/visit/delivered', passportConf.isAuthenticated, visitController.markResolved(io));
 app.get('/visit/end', passportConf.isAuthenticated, visitController.endVisit);
 
 app.get('/visit/payment', passportConf.isAuthenticated, visitController.callForCheck(io));

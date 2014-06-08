@@ -75,12 +75,13 @@ exports.orderFood = function (io) {
                   (function (k) {
                     var item = items[k];
                     db.Item.findById(item, function (err, itemObj) {
-                      var x = itemObj;
-                      x['quantity'] = quan[k];
+                      var x = {};
+                      x.quantity = quan[k];
+                      x.name = itemObj.name;
                       arr.push(x);
                       if (arr.length === items.length) {
                         res.json({ result: true });
-                        io.sockets.emit('food', { evt: 'food', items: arr, table: table.sno })
+                        io.sockets.emit('food', { evt: 'food', items: arr, table: table.sno, level: Math.ceil((Math.random() * 10) % 5) });
                       }
                     });
                   })(i);
@@ -127,39 +128,42 @@ exports.callForWaiter = function (io) {
   }
 };
 
-exports.markResolved = function (req, res) {
-  var tid = req.query.tid;
-  var admin = req.user.id;
-  db.Restaurant.findOne({ admin: admin }, function (err, restaurant) {
-    if (err) {
-      console.log(err);
-    }
+exports.markResolved = function (io) {
+  return function (req, res) {
+    var tid = req.query.tid;
+    var admin = req.user.id;
+    db.Restaurant.findOne({ admin: admin }, function (err, restaurant) {
+      if (err) {
+        console.log(err);
+      }
 
-    if (restaurant) {
-      db.Table.findOne({ owner: restaurant.id, sno: tid }, function (err, table) {
-        if (err) {
-          console.log(err);
-        }
-        if (table) {
-          db.Table.findByIdAndUpdate(table.id, { status: 'eating' }, function (err, table) {
-            if (err) {
-              console.log(err);
-            }
+      if (restaurant) {
+        db.Table.findOne({ owner: restaurant.id, sno: tid }, function (err, table) {
+          if (err) {
+            console.log(err);
+          }
+          if (table) {
+            db.Table.findByIdAndUpdate(table.id, { status: 'eating' }, function (err, table) {
+              if (err) {
+                console.log(err);
+              }
 
-            if (table) {
-              res.json({ result: true });
-            } else {
-              res.json({ result: false });
-            }
-          });
-        } else {
-          res.json({ result: false })
-        }
-      });
-    } else {
-      res.json({ result: false })
-    }
-  });
+              if (table) {
+                res.json({ result: true });
+                io.sockets.emit('mark_resolved', { result: true });
+              } else {
+                res.json({ result: false });
+              }
+            });
+          } else {
+            res.json({ result: false })
+          }
+        });
+      } else {
+        res.json({ result: false })
+      }
+    });
+  }
 };
 
 exports.callForCheck = function (io) {

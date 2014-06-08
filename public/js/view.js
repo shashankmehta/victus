@@ -61,7 +61,6 @@ app.view = {
 		var view = {
 			showGroupDetails: function(obj){
 				var type = $(obj).data('type')
-				
 				if(view.$('.group-details').length != 0){
 					view.childView.animateOut();
 				}
@@ -77,9 +76,8 @@ app.view = {
 						view.data.waiting++;
 						view.$('.set[data-type="new"] .number').text(view.data.new);
 						view.$('.set[data-type="waiting"] .number').text(view.data.waiting);
-						
-						new app.view.Order(data);
 					}
+					new app.view.Order(data);
 				});
 				socket.on('payment', function (data){
 					if(view.data.eating >= 1){
@@ -87,7 +85,7 @@ app.view = {
 						view.data.free++;
 						view.$('.set[data-type="eating"] .number').text(view.data.eating);
 						view.$('.set[data-type="free"] .number').text(view.data.free);
-						
+						view.$('.set[data-type="billing"] .number').text(view.data.billing);
 						if($('.custom_modal').is(':visible')){
 						  $('.custom_modal .content .text').append('<br>Table #'+data.table+' requested for their bill');
 						}
@@ -140,7 +138,7 @@ app.view = {
 				}
 				view.data = data;
 				view.height = view.$el.height();
-				view.animateIn();	
+				view.animateIn();
 			},
 
 			animateIn: function(){
@@ -296,7 +294,7 @@ app.view = {
 					{
 						value : data[1],
 						color : "#f1c40f"
-					}			
+					}
 				];
 				var ctx = document.getElementById("visittype").getContext("2d");
 				new Chart(ctx).Pie(dataset);

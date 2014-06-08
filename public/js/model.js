@@ -64,8 +64,9 @@ app.model = {
 
 	orders: {
 		markResolved: function (data, callback) {
-			console.log(data);
+			// console.log(data);
 			app.api.get('/visit/delivered', 'tid=' + data.table, function (data) {
+				console.log(data);
 				callback(data.result);
 			});
 		},
