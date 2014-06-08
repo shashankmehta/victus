@@ -205,7 +205,8 @@ exports.giveFeedback = function (io) {
           user: uid,
           visit: visit.id,
           restaurant: visit.restaurant,
-          feedback: feedback
+          feedback: feedback,
+          dateEntered : new Date().getTime()
         });
 
         feedback.save(function (err, feedback) {

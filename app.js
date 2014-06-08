@@ -36,7 +36,8 @@ var restaurantController = require('./controllers/restaurant_controller');
 var adminStatsController = require('./controllers/admin_stats_controller');
 var visitController = require('./controllers/visit_controller');
 var itemController = require('./controllers/item_controller');
-var userStatsController = require('./controllers/user_stats')
+var userStatsController = require('./controllers/user_stats');
+var feedbackController = require('./controllers/feedback-controller');
 
 /**
  * API keys and Passport configuration.
@@ -279,6 +280,8 @@ app.get('/visit/feedback', passportConf.isAuthenticated, visitController.giveFee
 app.get('/visit/delivered', passportConf.isAuthenticated, visitController.markResolved(io));
 app.get('/visit/end', passportConf.isAuthenticated, visitController.endVisit);
 
+app.get('/feedback/list', passportConf.isAuthenticated, feedbackController.listAllFeedback);
+
 app.get('/visit/payment', passportConf.isAuthenticated, visitController.callForCheck(io));
 app.get('/visit/waiter', passportConf.isAuthenticated, visitController.callForWaiter(io));
 app.get('/visit/menu', passportConf.isAuthenticated, visitController.listMenu);
@@ -286,7 +289,6 @@ app.get('/dashboard/orders', passportConf.isAuthenticated, adminStatsController.
 /**
  * Start Express server.
  */
-
 server.listen(app.get('port'), function() {
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });

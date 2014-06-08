@@ -8,7 +8,8 @@ var feedbackSchema = new mongoose.Schema({
   restaurant: String,
   user: String,
   visit: String,
-  feedback: String
+  feedback: String,
+  dateEntered : Number
 });
 
 module.exports = mongoose.model('Feedback', feedbackSchema);
