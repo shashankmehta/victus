@@ -15,8 +15,18 @@ exports.startNewVisit = function (io) {
       }
       db.Table.findByIdAndUpdate(tid, { status: 'just_in' }, function (err, table) {
         if (table) {
-          res.json({ result: true });
-          io.sockets.emit('new_table', { evt: 'new_table', table: table.sno });
+          db.User.findById(uid, function (err, user) {
+            if (err) {
+              console.log(err);
+            }
+
+            if (user) {
+              res.json({ result: true });
+              io.sockets.emit('new_table', { evt: 'new_table', table: table.sno, user_id: uid, name: user.email, level: Math.ceil((Math.random() * 10) % 5) });
+            } else {
+              res.json({ result: false });
+            }
+          });
         } else {
           res.json({ result: false });
         }
@@ -172,13 +182,31 @@ exports.callForCheck = function (io) {
     db.Visit.findOne({ user: uid, ended_at: null }, function (err, visit) {
       // We have the visit
       if (visit) {
-        db.Table.findByIdAndUpdate(visit.table, { status: 'free' }, function (err, table) {
+        db.Visit.findByIdAndUpdate(visit.id, { ended_at: new Date().getTime() }, function (err, visit) {
           if (err) {
             console.log(err);
           }
-          if (table) {
-            res.json({ result: true, amount: visit.bill + 0.125 * visit.bill });
-            io.sockets.emit('payment', { evt: 'payment', table: table.sno });
+          if (visit) {
+            db.Table.findByIdAndUpdate(visit.table, { status: 'free' }, function (err, table) {
+              if (err) {
+                console.log(err);
+              }
+              if (table) {
+                db.User.findById(uid, function (err, user) {
+                  if (err) {
+                    console.log(err);
+                  }
+                  if (user) {
+                    res.json({ result: true });
+                    io.sockets.emit('payment', { evt: 'payment', table: table.sno, user_id: uid, name: user.email, level: Math.ceil((Math.random() * 10) % 5) });
+                  } else {
+                    res.json({ result: false });
+                  }
+                });
+              } else {
+                res.json({ result: false });
+              }
+            });
           } else {
             res.json({ result: false });
           }
