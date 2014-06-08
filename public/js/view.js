@@ -53,6 +53,7 @@ View.prototype.render = function(){
 // Expose View function
 app.View = View;
 app.Menu = {items:[],unique_tags:[]};
+app.CustomerOrder = {items:[],quantity:[]};
 var socket = io.connect('/');
 
 app.view = {
@@ -346,6 +347,7 @@ app.view = {
 				view.data = data;
 
 				view.$('span.filter').click(function(){view.filterItems(this);});
+				view.$('button.submit').click(function(){view.placeOrder(this);});
 			},
 
 			filterItems: function(obj){
@@ -369,8 +371,26 @@ app.view = {
 				$('.menu-wrapper').html('');
 
 				view.init(data);
+			},
+
+			placeOrder: function(obj) {
+				// place order, maps to corresponding index in items and quantity
+				var items = app.CustomerOrder.items;
+				var quantity = app.CustomerOrder.quantity;
+
+				$.ajax({
+					url: '/visit/order',
+					type: 'GET',
+					data: {items: items, quantity: quantity},
+					success: function(data) {
+						if(data.result) {
+							console.log('Order placed.');
+							// redirect user
+						}
+					}
+				});
 			}
-		}
+		};
 
 		app.model.menus.getItems(view.init);
 	}
