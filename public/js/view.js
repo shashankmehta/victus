@@ -173,6 +173,12 @@ app.view = {
 			},
 
 			markResolved: function(){
+				if(view.data.new >= 1){
+					view.data.eating++;
+					view.data.waiting--;
+					view.$('.set[data-type="eating"] .number').text(view.data.eating);
+					view.$('.set[data-type="waiting"] .number').text(view.data.waiting);
+				}
 				var data = {
 					table: view.data.table
 				}
