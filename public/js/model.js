@@ -53,6 +53,7 @@ app.model = {
 						arr[table.status]++;
 					}
 				}
+				console.log(arr);
 				callback(arr);
 			});
 		},

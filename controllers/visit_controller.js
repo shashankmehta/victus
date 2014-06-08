@@ -85,9 +85,13 @@ exports.orderFood = function (io) {
                   (function (k) {
                     var item = items[k];
                     db.Item.findById(item, function (err, itemObj) {
+                      if (err) {
+                        console.log(err);
+                      }
+
                       var x = {};
                       x.quantity = quan[k];
-                      x.name = itemObj.name;
+                      x.name = itemObj.name || null;
                       arr.push(x);
                       if (arr.length === items.length) {
                         io.sockets.emit('food', { evt: 'food', items: arr, table: table.sno, level: Math.ceil((Math.random() * 10) % 5) });

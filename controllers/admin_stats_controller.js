@@ -48,7 +48,7 @@ exports.getStartingOrders = function (io) {
       }
 
       if (restaurant) {
-        db.Table.findOne({ owner: restaurant.id, sno: tno }, function (err, table) {
+        db.Table.findOne({ owner: restaurant.id, sno: tno, status: 'waiting' }, function (err, table) {
           if (err) {
             console.log(err);
           }
