@@ -100,6 +100,14 @@ app.view = {
 						}
 					}
 				});
+				socket.on('mark_resolved', function (data){
+					if(view.data.waiting >= 1){
+						view.data.eating++;
+						view.data.waiting--;
+						$('.set[data-type="eating"] .number').text(view.data.eating);
+						$('.set[data-type="waiting"] .number').text(view.data.waiting);
+					}
+				});
 			},
 
 			init: function(data){
@@ -173,12 +181,7 @@ app.view = {
 			},
 
 			markResolved: function(){
-				if(view.data.new >= 1){
-					view.data.eating++;
-					view.data.waiting--;
-					view.$('.set[data-type="eating"] .number').text(view.data.eating);
-					view.$('.set[data-type="waiting"] .number').text(view.data.waiting);
-				}
+
 				var data = {
 					table: view.data.table
 				}
