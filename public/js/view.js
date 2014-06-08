@@ -79,6 +79,9 @@ app.view = {
 					}
 					new app.view.Order(data);
 				});
+				socket.on('food_start', function (data) {
+					new app.view.Order(data);
+				});
 				socket.on('payment', function (data){
 					if(view.data.eating >= 1){
 						view.data.eating--;

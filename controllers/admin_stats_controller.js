@@ -38,6 +38,68 @@ exports.getNumbersOfTableType = function (req, res) {
   });
 };
 
+exports.getStartingOrders = function (io) {
+  return function (req, res) {
+    var admin = req.user.id;
+    var tno = req.query.tid;
+    db.Restaurant.findOne({ admin: admin }, function (err, restaurant) {
+      if (err) {
+        console.log(err);
+      }
+
+      if (restaurant) {
+        db.Table.findOne({ owner: restaurant.id, sno: tno }, function (err, table) {
+          if (err) {
+            console.log(err);
+          }
+
+          if (table) {
+            db.Visit.findOne({ restaurant: restaurant.id, table: table.id, ended_at: null }, function (err, visit) {
+              if (err) {
+                console.log(err);
+              }
+
+              if (visit) {
+                console.log(visit);
+                var arr = [];
+                var items = visit.items;
+                var quans = visit.quan;
+                for (var i in items) {
+                  (function (k) {
+                    var item = items[k];
+                    var quans = visit.quan[k]
+                    db.Item.findById(item, function (err, itemObj) {
+                      if (err) {
+                        console.log(err);
+                      }
+
+                      if (itemObj) {
+                        // console.log(itemObj);
+                        arr.push({ name: itemObj.name, quantity: quans[k] });
+                        if (arr.length == items.length) {
+                          io.sockets.emit('food', { evt: 'food', items: arr, table: tno, level: Math.ceil((Math.random() * 10) % 5) });
+                        }
+                        // res.json({ result: true });
+                        // res.json({ result: false });
+                      }
+                    });
+                  })(i);
+                }
+              } else {
+                res.json({ result: false });
+              }
+            });
+          } else {
+            res.json({ result: false });
+          }
+        });
+      } else {
+        res.json({ result: false });
+      }
+    });
+  };
+}
+
 exports.getCurrentUsers = function (req, res) {
   var admin = req.user.id;
   var max = -1;

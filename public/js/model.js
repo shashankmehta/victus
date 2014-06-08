@@ -72,13 +72,18 @@ app.model = {
 		},
 
 		initial: function(callback){
-			// app.api.get(callback);
+			for (var i = 0; i < 100; i++) {
+				app.api.get('/dashboard/orders', 'tid=' + i, function (data) {
+					console.log(data);
+				});
+			}
 		}
 	},
 
 	users: {
 		getTop: function(callback){
 			app.api.get('/dashboard/user/top', '', function (data) {
+				console.log(data);
 				var obj = { users: data };
 				callback(obj);
 			});

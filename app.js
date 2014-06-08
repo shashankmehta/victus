@@ -155,6 +155,7 @@ app.get('/dashboard/groups/details', passportConf.isAuthenticated, adminStatsCon
 app.get('/dashboard/user/top', passportConf.isAuthenticated, adminStatsController.getCurrentUsers);
 app.get('/dashboard/user/details', passportConf.isAuthenticated, adminStatsController.getUserDetails);
 
+
 //Restaurant
 app.get('/restaurant/add', passportConf.isAuthenticated, restaurantController.displayGetForm);
 app.post('/restaurant/add', passportConf.isAuthenticated, restaurantController.saveRestaurant);
@@ -281,7 +282,7 @@ app.get('/visit/end', passportConf.isAuthenticated, visitController.endVisit);
 app.get('/visit/payment', passportConf.isAuthenticated, visitController.callForCheck(io));
 app.get('/visit/waiter', passportConf.isAuthenticated, visitController.callForWaiter(io));
 app.get('/visit/menu', passportConf.isAuthenticated, visitController.listMenu);
-
+app.get('/dashboard/orders', passportConf.isAuthenticated, adminStatsController.getStartingOrders(io));
 /**
  * Start Express server.
  */

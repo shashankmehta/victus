@@ -80,12 +80,12 @@ exports.orderFood = function (io) {
                       x.name = itemObj.name;
                       arr.push(x);
                       if (arr.length === items.length) {
-                        res.json({ result: true });
                         io.sockets.emit('food', { evt: 'food', items: arr, table: table.sno, level: Math.ceil((Math.random() * 10) % 5) });
                       }
                     });
                   })(i);
                 }
+                res.json({ result: true });
               } else {
                 res.json({ result: false });
               }
