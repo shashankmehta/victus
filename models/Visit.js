@@ -10,6 +10,7 @@ var visitSchema = new mongoose.Schema({
   table: String,
   user: String,
   items: Array,
+  quan: Array,
   bill: Number,
   tip: Number,
   started_at: Number,

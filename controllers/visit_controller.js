@@ -8,7 +8,7 @@ exports.startNewVisit = function (io) {
     var uid = req.user.id;
     var time = new Date().getTime();
 
-    var visit = new db.Visit({ restaurant: rid, table: tid, user: uid, items: [], bill: 0.0, tip: 0.0, started_at: time, ended_at: null });
+    var visit = new db.Visit({ restaurant: rid, table: tid, user: uid, items: [], quan: [], bill: 0.0, tip: 0.0, started_at: time, ended_at: null });
     visit.save(function (err) {
       if (err) {
         console.log(err);
@@ -26,7 +26,7 @@ exports.startNewVisit = function (io) {
 };
 
 exports.endVisit = function (req, res) {
-  var tid = req.body.table;
+  var tid = req.query.tid;
   var time = new Date().getTime();
   db.Visit.findOne({ table: tid }, function (err, visit) {
     if (visit) {
@@ -53,13 +53,14 @@ exports.orderFood = function (io) {
   return function (req, res) {
     var uid = req.user.id;
     var items = JSON.parse(req.query.items);
+    var quan = JSON.parse(req.query.quantity);
     db.Visit.findOne({ user: uid, ended_at: null }, function (err, visit) {
       // We have the visit
       if (err) {
         console.log(err);
       }
       if (visit) {
-        db.Visit.findByIdAndUpdate(visit.id, { items: items }, function (err, visit) {
+        db.Visit.findByIdAndUpdate(visit.id, { items: items, quan: quan }, function (err, visit) {
           if (err) {
             console.log(err);
           }
@@ -69,16 +70,20 @@ exports.orderFood = function (io) {
                 console.log(err);
               }
               if (table) {
-                res.json({ result: true });
                 var arr = [];
                 for (var i in items) {
-                  var item = items[i];
-                  db.Item.findById(item, function (err, itemObj) {
-                    arr.push(itemObj);
-                    if (arr.length === items.length) {
-                      io.sockets.emit('food', { evt: 'food', items: arr, table: visit.table })
-                    }
-                  });
+                  (function (k) {
+                    var item = items[k];
+                    db.Item.findById(item, function (err, itemObj) {
+                      var x = itemObj;
+                      x['quantity'] = quan[k];
+                      arr.push(x);
+                      if (arr.length === items.length) {
+                        res.json({ result: true });
+                        io.sockets.emit('food', { evt: 'food', items: arr, table: visit.table })
+                      }
+                    });
+                  })(i);
                 }
               } else {
                 res.json({ result: false });
@@ -114,7 +119,7 @@ exports.callForWaiter = function (io) {
 };
 
 exports.markResolved = function (req, res) {
-  var tid = req.body.table;
+  var tid = req.query.tid;
   db.Table.findByIdAndUpdate(tid, { status: 'eating' }, function (err, table) {
     if (err) {
       console.log(err);

@@ -268,14 +268,12 @@ io.sockets.on('connection', function(socket){
 
 });
 
-// POST
 app.get('/visit/start', passportConf.isAuthenticated, visitController.startNewVisit(io));
 app.get('/visit/order', passportConf.isAuthenticated, visitController.orderFood(io));
 app.get('/visit/feedback', passportConf.isAuthenticated, visitController.giveFeedback(io));
 app.get('/visit/delivered', passportConf.isAuthenticated, visitController.markResolved);
 app.get('/visit/end', passportConf.isAuthenticated, visitController.endVisit);
 
-// GET
 app.get('/visit/payment', passportConf.isAuthenticated, visitController.callForCheck(io));
 app.get('/visit/waiter', passportConf.isAuthenticated, visitController.callForWaiter(io));
 app.get('/visit/menu', passportConf.isAuthenticated, visitController.listMenu);
