@@ -78,10 +78,59 @@ app.model = {
 
 	users: {
 		getTop: function(callback){
-			app.api.get('/dashboard/user/top', '', function (data) {
-				var obj = { users: data };
-				callback(obj);
-			});
+			// app.api.get('/dashboard/user/top', '', function (data) {
+			// 	var obj = { users: data };
+			// 	callback(obj);
+			// });
+			var data = {
+				users: [
+					{
+						name: 'Shashank',
+						level: 5,
+						user_id: 'asdasd'
+					}
+				]
+			}
+
+			callback(data);
+		},
+
+		getDetails: function(req, callback){
+			// app.api.get('url', {id: req.id}, callback);
+			var data = {
+				list: [
+					{
+						date: '20-05-2014',
+						items: [
+							{
+								name: 'Dum Aloo',
+								quantity: 2
+							},
+							{
+								name: 'Chicken',
+								quantity: 1
+							}
+						]
+					},
+					{
+						date: '22-05-2014',
+						items: [
+							{
+								name: 'Dum Aloo',
+								quantity: 2
+							},
+							{
+								name: 'Chicken',
+								quantity: 1
+							}
+						]
+					}
+				] 
+			};
+
+			data.name = req.name;
+
+			callback(data);
 		}
 	},
 

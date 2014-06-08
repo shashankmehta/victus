@@ -205,6 +205,36 @@ app.view = {
 					view[key] = page[key];
 				}
 				view.data = data;
+
+				view.$('li').click(function(){
+					view.getDetails(this);
+				})
+			},
+
+			getDetails: function(obj){
+				var data = {};
+				data.id = $(obj).data('id');
+				var users = view.data.users;
+				for(var i in users){
+					if(users[i].user_id == data.id){
+						data.name = users[i].name;
+					}
+				}
+				app.model.users.getDetails(data, view.showDetails);
+			},
+
+			showDetails: function(data){
+				console.log(data);
+				var source = $('.script-customer-details').html();
+
+				var template = Handlebars.compile(source);
+				var view = template(data);
+
+				$('.custom_modal .content .text').html(view);
+				$('.custom_modal').fadeIn(200);
+				$('.custom_modal .btn').click(function(){
+				  $('.custom_modal').fadeOut(200);
+				})
 			}
 		}
 

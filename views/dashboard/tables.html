@@ -41,7 +41,7 @@
 	<h3>Current Customers</h3>
 	<ul>
 		{{#each users}}
-			<li>
+			<li data-id="{{user_id}}">
 				<div class="user loyalty-{{level}}">
 					<i class="fa fa-user"></i> 
 					<div class="loyalty loyalty-{{level}}">
@@ -52,4 +52,15 @@
 			</li>
 		{{/each}}
 	</ul>
+</script>
+<script class="script-customer-details" type="text/template">
+	<h4>{{name}}</h4>
+	{{#each list}}
+		<h5>{{date}}</h5>
+		<ul>
+			{{#each items}}
+				<li>{{name}} x{{quantity}}</li>
+			{{/each}}
+		</ul>
+	{{/each}}
 </script>
