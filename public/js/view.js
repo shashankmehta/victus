@@ -81,6 +81,25 @@ app.view = {
 						new app.view.Order(data);
 					}
 				});
+				socket.on('payment', function (data){
+					if(view.data.eating >= 1){
+						view.data.eating--;
+						view.data.billing++;
+						view.$('.set[data-type="eating"] .number').text(view.data.eating);
+						view.$('.set[data-type="billing"] .number').text(view.data.billing);
+						
+						if($('.custom_modal').is(':visible')){
+						  $('.custom_modal .content .text').append('<br>Table #'+data.table+' requested for their bill');
+						}
+						else {
+						  $('.custom_modal .content .text').html('Table #'+data.table+' requested for their bill');
+						  $('.custom_modal').fadeIn(200);
+						  $('.custom_modal .btn').click(function(){
+						    $('.custom_modal').fadeOut(200);
+						  })
+						}
+					}
+				});
 			},
 
 			init: function(data){
