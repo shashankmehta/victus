@@ -68,6 +68,10 @@ app.model = {
 			app.api.get('/visit/delivered', 'tid=' + data.table, function (data) {
 				callback(data.result);
 			});
+		},
+
+		initial: function(callback){
+			// app.api.get(callback);
 		}
 	},
 

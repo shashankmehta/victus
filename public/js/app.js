@@ -21,6 +21,12 @@ $(document).ready(function(){
 			var view = new app.view.TableGroups;
 			var cust = new app.view.TopCustomers;
 
+			app.model.orders.initial(function(data){
+				for(var i in data){
+					new app.view.Order(data[i]);
+				}
+			})
+
 			var width = $('.orders .box').width();
 			var $container = $('.orders .box');
 			$container.masonry({
