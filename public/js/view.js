@@ -100,6 +100,7 @@ app.view = {
 						    $('.custom_modal').fadeOut(200);
 						  })
 						}
+						$('.customers li[data-id='+data.user_id+']').remove();
 					}
 				});
 				socket.on('mark_resolved', function (data){
