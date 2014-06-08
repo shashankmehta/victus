@@ -119,7 +119,10 @@ exports.callForWaiter = function (io) {
           } else {
             res.send({ result: false });
           }
-        })
+        });
+      } else {
+        res.send({ result: false });
+      }
     });
   }
 };
