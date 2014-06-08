@@ -69,6 +69,15 @@ $(document).ready(function(){
         app.api.get('/visit/payment', '', function(){
         })
       })
+
+      $('.option.send-feedback').click(function(){
+        $('.give-feedback').append('<textarea></textarea><br><button class="btn btn-success">Send</button>');
+        $('.give-feedback .btn').click(function(){
+          $('.give-feedback').html('Sent!');
+          var text = $('.give-feedback textarea').val();
+          app.api.get('/visit/feedback', {feedback: text});
+        })
+      })
     },
   };
 
