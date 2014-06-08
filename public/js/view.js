@@ -341,7 +341,7 @@ app.view = {
 
 	MenuItems: function(data){
 		var view = {
-			init: function(data){
+			init: function(data, filter){
 				console.table(data.items);
 				var parent = '.menu-wrapper';
 				var page = new app.View('.script-menu', parent, {data: data});
@@ -353,6 +353,12 @@ app.view = {
 				view.$('span.filter').click(function(){view.filterItems(this);});
 				view.$('button.submit').click(function(){view.placeOrder(this);});
 				view.$("input[type='checkbox']").change(function(){view.updateOrder(this);});
+
+				if(!filter){
+					filter = 'all'
+				}
+				$('.filters .selected').removeClass('selected');
+				view.$('.filter[data-filter="'+filter+'"]').parent().addClass('selected');
 			},
 
 			filterItems: function(obj){
@@ -387,7 +393,7 @@ app.view = {
 				
 				$('.menu-wrapper').html('');
 
-				view.init(data);
+				view.init(data, filter);
 			},
 
 			placeOrder: function(obj) {

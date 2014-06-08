@@ -27,8 +27,13 @@ div.filters div{
 	line-height: 50px;
 	font-size:0.7em;
 }
-.filter:hover{
-	curor: pointer;
+.filter{
+	cursor: pointer;
+}
+
+.filters .selected {
+	background: #2ECC71;
+	color: white;
 }
 </style>
 
@@ -78,7 +83,7 @@ div.filters div{
 		</div>
 	{{/each}}
 	<center>
-		<button class="submit" class="btn btn-primary btn-lg">Place Order</button>
+		<button class="submit btn btn-success" style="margin-top: 20px">Place Order</button>
 	</center>
 </script>
 
