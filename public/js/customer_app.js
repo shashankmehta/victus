@@ -60,6 +60,15 @@ $(document).ready(function(){
       $('.main').html(view);
 
       var menu = new app.view.MenuItems;
+
+      $('.option.waiter').click(function(){
+        app.api.get('/visit/waiter', '', function(){
+        })
+      })
+      $('.option.bill').click(function(){
+        app.api.get('/visit/payment', '', function(){
+        })
+      })
     },
   };
 

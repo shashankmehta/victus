@@ -369,6 +369,12 @@ app.view = {
 				}
 				$('.filters .selected').removeClass('selected');
 				view.$('.filter[data-filter="'+filter+'"]').parent().addClass('selected');
+
+				view.$('.option.waiter').click(function(){
+				    console.log('Called');  
+				  app.api.get('/visits/waiter', '', function(){
+				  })
+				})
 			},
 
 			filterItems: function(obj){
@@ -454,6 +460,7 @@ app.view = {
 		};
 
 		app.model.menus.getItems(view.init);
+		return view;
 	},
 
 	Feedback: function(data){
