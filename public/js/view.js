@@ -174,8 +174,7 @@ app.view = {
 
 			markResolved: function(){
 				var data = {
-					order_id: view.data.order_id,
-					action: 'resolved'
+					table: view.data.table
 				}
 
 				app.model.orders.markResolved(data, function(){
