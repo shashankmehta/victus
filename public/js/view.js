@@ -52,6 +52,8 @@ View.prototype.render = function(){
 
 // Expose View function
 app.View = View;
+app.Menu = {items:[],unique_tags:[]};
+app.CustomerOrder = {items:[],quantity:[]};
 var socket = io.connect('/');
 
 app.view = {
@@ -208,6 +210,36 @@ app.view = {
 					view[key] = page[key];
 				}
 				view.data = data;
+
+				view.$('li').click(function(){
+					view.getDetails(this);
+				})
+			},
+
+			getDetails: function(obj){
+				var data = {};
+				data.id = $(obj).data('id');
+				var users = view.data.users;
+				for(var i in users){
+					if(users[i].user_id == data.id){
+						data.name = users[i].name;
+					}
+				}
+				app.model.users.getDetails(data, view.showDetails);
+			},
+
+			showDetails: function(data){
+				console.log(data);
+				var source = $('.script-customer-details').html();
+
+				var template = Handlebars.compile(source);
+				var view = template(data);
+
+				$('.custom_modal .content .text').html(view);
+				$('.custom_modal').fadeIn(200);
+				$('.custom_modal .btn').click(function(){
+				  $('.custom_modal').fadeOut(200);
+				})
 			}
 		}
 
@@ -310,14 +342,100 @@ app.view = {
 	MenuItems: function(data){
 		var view = {
 			init: function(data){
-				var parent = '.main';
+				console.table(data.items);
+				var parent = '.menu-wrapper';
 				var page = new app.View('.script-menu', parent, {data: data});
 				for (var key in page){
 					view[key] = page[key];
 				}
 				view.data = data;
+
+				view.$('span.filter').click(function(){view.filterItems(this);});
+				view.$('button.submit').click(function(){view.placeOrder(this);});
+				view.$("input[type='checkbox']").change(function(){view.updateOrder(this);});
+			},
+
+			filterItems: function(obj){
+				var filter = $(obj).attr('data-filter');
+
+				var data = {
+					items: [],
+					unique_tags: app.Menu.unique_tags
+				};
+				
+				if(filter == 'all') {
+					data.items = app.Menu.items;
+				} else {
+					for(key in app.Menu.items) {
+						if(app.Menu.items[key].tags.indexOf(filter) != -1) {
+							data.items.push(app.Menu.items[key]);
+						}
+					}
+				}
+
+				for(var index in data.items) {
+					var item_id = data.items[index].item_id;
+					console.log(item_id, typeof(item_id), "found");
+
+					if(app.CustomerOrder.items.indexOf(item_id) != -1) {
+						console.log("Item with id " + item_id + " found in user's menu!");
+						data.items[index].state = "checked";
+					} else {
+						data.items[index].state = "";
+					}
+				}
+				
+				$('.menu-wrapper').html('');
+
+				view.init(data);
+			},
+
+			placeOrder: function(obj) {
+				// place order, maps to corresponding index in items and quantity
+				var items = app.CustomerOrder.items;
+				var quantity = app.CustomerOrder.quantity;
+				console.log(items);
+				console.log(quantity);
+
+				$.ajax({
+					url: '/visit/order',
+					type: 'GET',
+					data: {items: items, quantity: quantity},
+					success: function(data) {
+						if(data.result) {
+							console.log('Order placed.');
+							// redirect user
+						}
+					}
+				});
+			},
+
+			updateOrder: function(obj) {
+				var item_id = $(obj).attr('data-itemid');
+				var quantity = parseInt($("input[type='range'][data-itemid='" + item_id +"']").val());
+
+				if($(obj).prop('checked')) {
+					if(app.CustomerOrder.items.indexOf(item_id) == -1) {
+						app.CustomerOrder.items.push(item_id);
+						app.CustomerOrder.quantity.push(quantity);
+						console.log(app.CustomerOrder);
+					} else {
+						var index = app.CustomerOrder.items.indexOf(item_id);
+						app.CustomerOrder.items[index] = item_id;
+						app.CustomerOrder.quantity[index] = quantity;
+					}
+				} else {
+					if(app.CustomerOrder.items.indexOf(item_id) != -1) {
+						var index = app.CustomerOrder.items.indexOf(item_id);
+						var id_of_removed_item = app.CustomerOrder.items.splice(index, 1);
+						app.CustomerOrder.quantity.splice(index, 1);
+						console.log("Item " + id_of_removed_item + " removed!");
+					}
+				}
+
+				console.table(app.CustomerOrder);
 			}
-		}
+		};
 
 		app.model.menus.getItems(view.init);
 	}

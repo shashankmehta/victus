@@ -6,6 +6,16 @@ div.col-xs-2{
 input[type="checkbox"]{
 	zoom: 2.5;
 }
+div.sticky-bottom{
+	position: fixed;
+	bottom: 0px;
+	min-height: 30px;
+	background: #202d3b;
+	color: #FFF;
+	width : 100%;
+	left:0px;
+	line-height: 40px;
+}
 </style>
 
 <script class="script-main-page" type="text/template">
@@ -17,8 +27,12 @@ input[type="checkbox"]{
 </script>
 
 <script class="script-menu" type="text/template">
-
-	<form>
+	<div class="filters">
+		<span class="filter" data-filter="all">all</span>
+		{{#each unique_tags}}
+			<span class="filter" data-filter="{{this}}">{{this}}</span>
+		{{/each}}
+	</div>
 	<h2 class="text-center">Menu</h2>
 	<hr>
 	{{#each items}}
@@ -32,18 +46,22 @@ input[type="checkbox"]{
 			</div>
 			<div class="row">
 				<div class="col-xs-10">
-					₹{{price}} - 
+					{{price}} - 
 					{{vegCheck tags}}
 				</div>
 			</div>	
 		</div>
 
 		<div class="col-xs-2">
-			<input type="checkbox" name="items[]" value="{{id}}" class="item">
+			<input type="checkbox" name="items[]" value="{{item_id}}" data-itemid="{{item_id}}" class="item" {{state}}>
 		</div>
 		<div class="hidden">
-			<input type="range" name="quantity[{{id}}]">
+			<input type="range" name="quantity[{{item_id}}]" data-itemid="{{item_id}}" value="{{quantity}}">
 		</div>
 	{{/each}}
-	</form>
+	<button class="submit">Place Order</button>
 </script>
+
+<div class="promotion sticky-bottom text-center">
+Offer of the day : <strong> Paneer Achari @ ₹75 </strong>
+</div>
