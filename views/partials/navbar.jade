@@ -11,8 +11,6 @@
       ul.nav.navbar-nav
         li(class=title=='Home'?'active':undefined)
           a(href='/') Home
-        li
-          a(href='/restaurant/add') Add a restaurant
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=title=='Login'?'active':undefined)
@@ -21,7 +19,7 @@
             a(href='/signup') Create Account
         else
           li.feedback
-            a(href='#/feedback') 
+            a(href='#/feedback')
               i.fa.fa-bell
               span.count 5
           li.dropdown(class=title=='Account Management'?'active':undefined)
