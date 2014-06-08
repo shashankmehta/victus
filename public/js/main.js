@@ -31,6 +31,7 @@ $(document).ready(function() {
 
   socket.on('food', function (data) {
     // Insert order notification here
+    console.log(data);
     console.log('Someone placed an order');
   });
 

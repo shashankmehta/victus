@@ -129,14 +129,35 @@ exports.callForWaiter = function (io) {
 
 exports.markResolved = function (req, res) {
   var tid = req.query.tid;
-  db.Table.findByIdAndUpdate(tid, { status: 'eating' }, function (err, table) {
+  var admin = req.user.id;
+  db.Restaurant.findOne({ admin: admin }, function (err, restaurant) {
     if (err) {
       console.log(err);
     }
-    if (table) {
-      res.json({ result: true });
+
+    if (restaurant) {
+      db.Table.findOne({ owner: restaurant.id, sno: tid }, function (err, table) {
+        if (err) {
+          console.log(err);
+        }
+        if (table) {
+          db.Table.findByIdAndUpdate(table.id, { status: 'eating' }, function (err, table) {
+            if (err) {
+              console.log(err);
+            }
+
+            if (table) {
+              res.json({ result: true });
+            } else {
+              res.json({ result: false });
+            }
+          });
+        } else {
+          res.json({ result: false })
+        }
+      });
     } else {
-      res.json({ result: false });
+      res.json({ result: false })
     }
   });
 };

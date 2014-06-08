@@ -1,11 +1,11 @@
 window.app = window.app || {};
 
 app.api = {
-	urlRoot: '/dashboard/',
+	urlRoot: '',
 
 	get: function(url, data, callback){
 		$.ajax({
-			url: app.model.urlRoot + url,
+			url: app.api.urlRoot + url,
 			data: data,
 			dataType: 'json',
 			method: 'get',
@@ -36,64 +36,47 @@ app.model = {
 
 	groups: {
 		getAll: function(callback){
-			// app.api.get('groups/details');
-			var data = {
-				'new': 2,
-				'waiting': 5,
-				'eating': 7,
-				'billing': 4,
-				'free': 3
-			}
-
-			callback(data);
+			app.api.get('/dashboard/groups/', '', function (data) {
+				var arr = { 'new': 0, 'waiting': 0, 'eating': 0, 'billing': 0, 'free': 0 };
+				for (var i in data) {
+					var table = data[i];
+					if (table.status === 'just_in') {
+						arr['new']++;
+					} else {
+						arr[table.status]++;
+					}
+				}
+				callback(arr);
+			});
 		},
 
-		getDetails: function(type, callback){
-			// app.api.get('groups/details', callback);
-			var data = {
-				tables: [1, 2, 5]
-			}
-			callback(data);
+		getDetails: function (type, callback) {
+			app.api.get('/dashboard/groups/details', 'status=' + type, function (data) {
+				var obj = { tables: [] };
+				for (var i in data) {
+					var table = data[i];
+					obj.tables.push(table.sno);
+				}
+				callback(obj);
+			});
 		},
 	},
 
 	orders: {
-		markResolved: function(data, callback){
-			// app.api.post('orders', data,callback);
-			callback(true);
+		markResolved: function (data, callback) {
+			console.log(data);
+			app.api.get('/visit/delivered', 'tid=' + data.table, function (data) {
+				callback(data.result);
+			});
 		}
 	},
 
 	users: {
 		getTop: function(callback){
-			// app.api.get('/users/top', callback);
-			
-			var data = {
-				users: [
-					{
-						user_id: 1,
-						name: 'Shashank Mehta',
-						level: 5
-					},
-					{
-						user_id: 3,
-						name: 'Divij Bindlish',
-						level: 4
-					},
-					{
-						user_id: 2,
-						name: 'Ashwini Khare',
-						level: 3
-					},
-					{
-						user_id: 4,
-						name: 'Abhishek Kandoi',
-						level: 1
-					}
-				]
-			}
-
-			callback(data);
+			app.api.get('/dashboard/user/top', '', function (data) {
+				var obj = { users: data };
+				callback(obj);
+			});
 		}
 	},
 
@@ -128,9 +111,8 @@ app.model = {
 	},
 
 	menus: {
-		getItems: function(callback){
+		getItems: function (callback) {
 			// app.api.get('/visit/menu', callback);
-			
 			var data = {
 				items: [
 					{
