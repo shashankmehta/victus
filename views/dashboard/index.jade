@@ -5,3 +5,8 @@ block content
 	include tables.html
 	include order.html
 	include stats.html
+
+block custom_footer
+	!= js('model')
+	!= js('view')
+	!= js('app')
