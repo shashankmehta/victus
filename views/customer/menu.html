@@ -76,10 +76,10 @@ div.filters div{
 		</div>
 
 		<div class="col-xs-2">
-			<input type="checkbox" name="items[]" value="{{item_id}}" data-itemid="{{item_id}}" class="item" {{state}}>
+			<input type="checkbox" name="items[]" value="{{_id}}" data-itemid="{{_id}}" class="item" {{state}}>
 		</div>
 		<div class="hidden">
-			<input type="range" name="quantity[{{item_id}}]" data-itemid="{{item_id}}" value="{{quantity}}">
+			<input type="range" name="quantity[{{_id}}]" data-itemid="{{_id}}" value="{{quantity}}">
 		</div>
 	{{/each}}
 	<center>

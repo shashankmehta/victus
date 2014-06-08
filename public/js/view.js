@@ -390,11 +390,11 @@ app.view = {
 				}
 
 				for(var index in data.items) {
-					var item_id = data.items[index].item_id;
-					console.log(item_id, typeof(item_id), "found");
+					var _id = data.items[index]._id;
+					console.log(_id, typeof(_id), "found");
 
-					if(app.CustomerOrder.items.indexOf(item_id) != -1) {
-						console.log("Item with id " + item_id + " found in user's menu!");
+					if(app.CustomerOrder.items.indexOf(_id) != -1) {
+						console.log("Item with id " + _id + " found in user's menu!");
 						data.items[index].state = "checked";
 					} else {
 						data.items[index].state = "";
@@ -416,7 +416,7 @@ app.view = {
 				$.ajax({
 					url: '/visit/order',
 					type: 'GET',
-					data: {items: items, quantity: quantity},
+					data: {items: JSON.stringify(items), quantity: JSON.stringify(quantity)},
 					success: function(data) {
 						if(data.result) {
 							console.log('Order placed.');
@@ -427,22 +427,22 @@ app.view = {
 			},
 
 			updateOrder: function(obj) {
-				var item_id = $(obj).attr('data-itemid');
-				var quantity = parseInt($("input[type='range'][data-itemid='" + item_id +"']").val());
+				var _id = $(obj).attr('data-itemid');
+				var quantity = parseInt($("input[type='range'][data-itemid='" + _id +"']").val());
 
 				if($(obj).prop('checked')) {
-					if(app.CustomerOrder.items.indexOf(item_id) == -1) {
-						app.CustomerOrder.items.push(item_id);
+					if(app.CustomerOrder.items.indexOf(_id) == -1) {
+						app.CustomerOrder.items.push(_id);
 						app.CustomerOrder.quantity.push(quantity);
 						console.log(app.CustomerOrder);
 					} else {
-						var index = app.CustomerOrder.items.indexOf(item_id);
-						app.CustomerOrder.items[index] = item_id;
+						var index = app.CustomerOrder.items.indexOf(_id);
+						app.CustomerOrder.items[index] = _id;
 						app.CustomerOrder.quantity[index] = quantity;
 					}
 				} else {
-					if(app.CustomerOrder.items.indexOf(item_id) != -1) {
-						var index = app.CustomerOrder.items.indexOf(item_id);
+					if(app.CustomerOrder.items.indexOf(_id) != -1) {
+						var index = app.CustomerOrder.items.indexOf(_id);
 						var id_of_removed_item = app.CustomerOrder.items.splice(index, 1);
 						app.CustomerOrder.quantity.splice(index, 1);
 						console.log("Item " + id_of_removed_item + " removed!");

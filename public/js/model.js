@@ -178,9 +178,36 @@ app.model = {
 
 	menus: {
 		getItems: function (callback) {
+			app.api.get('/visit/menu', '', function (data) {
+				console.log(data);
+				var objData = {items:data};
+				var arrayUnique = function(a) {
+			    return a.reduce(function(p, c) {
+			        if (p.indexOf(c) < 0) p.push(c);
+			        return p;
+			    }, []);
+				};
+				var all_tags = [];
+				for(var index in objData.items) {
+					for(var tag_index in objData.items[index].tags) {
+						all_tags.push(objData.items[index].tags[tag_index]);
+					}
+				}
+				var unique_tags = arrayUnique(all_tags);
+				objData.unique_tags = unique_tags;
+
+				for(var index in objData.items) {
+					objData.items[index].state = "";
+					objData.items[index].quantity = 0;
+				}
+
+				app.Menu = objData;
+
+				callback(objData);
+			});
 			// app.api.get('/visit/menu', callback);
 			// also extract unique_tags here
-			var data = {
+			/*var data = {
 				items: [
 					{
 						item_id: "1",
@@ -208,16 +235,7 @@ app.model = {
 					}
 				],
 				unique_tags: ['veg', 'italian', 'mexican', 'non-veg', 'chinese']
-			}
-
-			for(var index in data.items) {
-				data.items[index].state = "";
-				data.items[index].quantity = 0;
-			}
-
-			app.Menu = data;
-
-			callback(data);
+			}*/
 		}
 	},
 
