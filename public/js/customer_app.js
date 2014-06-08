@@ -10,10 +10,10 @@ Handlebars.registerHelper('vegCheck', function(tags){
   var string = '';
   for(var i in tags){
     if(tags[i] == 'veg'){
-      string += '<span class="veg">' + tags[i] + '</span>, ';
+      string += '<span class="veg text-success">' + tags[i] + '</span>, ';
     }
-    else if(tags[i] == 'non-veg'){ 
-      string += '<span class="nonveg">' + tags[i] + '</span>, ';
+    else if(tags[i] == 'non-veg' || tags[i] == 'nonveg'){ 
+      string += '<span class="nonveg text-danger">' + tags[i] + '</span>, ';
     }
     else {
       string += tags[i] + ', ';
