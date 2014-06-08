@@ -213,6 +213,16 @@ app.view = {
 				view.$('li').click(function(){
 					view.getDetails(this);
 				})
+
+				view.socketCatch();
+			},
+
+			socketCatch: function(){
+				socket.on('new_table', function (data){
+					view.data.users.push(data);
+					view.$el.remove();
+					view.init(view.data);
+				});
 			},
 
 			getDetails: function(obj){
