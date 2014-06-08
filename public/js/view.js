@@ -443,5 +443,20 @@ app.view = {
 		};
 
 		app.model.menus.getItems(view.init);
+	},
+
+	Feedback: function(data){
+		var view = {
+			init: function(data){
+				var parent = '.main';
+				var page = new app.View('.script-feedback', parent, {data: data});
+				for (var key in page){
+					view[key] = page[key];
+				}
+				view.data = data;
+			}
+		}
+		console.log('feedback', data);
+		view.init(data);
 	}
 }

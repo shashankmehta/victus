@@ -129,6 +129,17 @@ $(document).ready(function(){
 		'/stats': function(){
 			app.helpers.clear();
 			new app.view.Stats;
+		},
+
+		'/feedback': function(){
+			app.helpers.clear();
+			$('.main').append('<h3 style="text-align: center;">Feedback</h3>');
+			app.model.getFeedback(function(data){
+				var items = data['items'];
+				for(var i in items){
+					new app.view.Feedback(items[i]);
+				}
+			});
 		}
 	};
 

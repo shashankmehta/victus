@@ -74,7 +74,7 @@ app.model = {
 		initial: function(callback){
 			for (var i = 0; i < 100; i++) {
 				app.api.get('/dashboard/orders', 'tid=' + i, function (data) {
-					console.log(data);
+					// console.log(data);
 				});
 			}
 		}
@@ -212,4 +212,30 @@ app.model = {
 			callback(data);
 		}
 	},
+
+	getFeedback: function(callback){
+		// app.api.get('/feedback', '', callback)
+		
+		var data = {
+			items: [
+				{
+					name: 'Shashank Mehta',
+					message: 'This is a random message. I should be trying out something really long, for people will leave long feedbacks. In any case, longer text should only look better in this design',
+					time: '20-05-2014'
+				},
+				{
+					name: 'Shashank Mehta',
+					message: 'This is a random message. I should be trying out something really long, for people will leave long feedbacks. In any case, longer text should only look better in this design',
+					time: '22-05-2014'
+				},
+				{
+					name: 'Shashank Mehta',
+					message: 'This is a random message',
+					time: '23-05-2014'
+				}
+			]
+		}
+
+		callback(data);
+	}
 }
