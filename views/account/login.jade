@@ -11,6 +11,12 @@ block content
       .form-group
         label.control-label(for='password') Password
         input.form-control(type='password', name='password', id='password', placeholder='Password')
+      if rid
+        .form-group
+          input.form-control(type='hidden', name='rid', id='rid', value='#{rid}')
+      if tid
+        .form-group
+          input.form-control(type='hidden', name='tid', id='tid', value='#{tid}')
       .form-group
         button.btn.btn-primary(type='submit')
           i.fa.fa-unlock-alt

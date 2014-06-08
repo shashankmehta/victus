@@ -13,8 +13,13 @@ var secrets = require('../config/secrets');
 
 exports.getLogin = function(req, res) {
   if (req.user) return res.redirect('/');
+  if (req.query.rid) {var rid = req.query.rid};
+  if (req.query.tid) {var tid = req.query.tid};
+  console.log(rid, tid);
   res.render('account/login', {
-    title: 'Login'
+    title: 'Login',
+    rid: rid,
+    tid: tid
   });
 };
 
@@ -26,6 +31,8 @@ exports.getLogin = function(req, res) {
  */
 
 exports.postLogin = function(req, res, next) {
+  if (req.query.rid && req.query.tid) {req.session.returnTo = '/customer/home?rid=' + req.query.rid + '&tid=' + req.query.tid};
+
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password cannot be blank').notEmpty();
 
