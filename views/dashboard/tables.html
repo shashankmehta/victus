@@ -56,11 +56,13 @@
 <script class="script-customer-details" type="text/template">
 	<h4>{{name}}</h4>
 	{{#each list}}
-		<h5>{{date}}</h5>
-		<ul>
-			{{#each items}}
-				<li>{{name}} x{{quantity}}</li>
-			{{/each}}
-		</ul>
+		<div class="list">
+			<h5>{{date}}</h5>
+			<ul>
+				{{#each items}}
+					<li>{{name}} x{{quantity}}</li>
+				{{/each}}
+			</ul>
+		</div>
 	{{/each}}
 </script>
