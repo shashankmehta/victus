@@ -167,6 +167,7 @@ app.model = {
 	menus: {
 		getItems: function (callback) {
 			// app.api.get('/visit/menu', callback);
+			// also extract unique_tags here
 			var data = {
 				items: [
 					{
@@ -193,8 +194,10 @@ app.model = {
 						tags: ['veg', 'chinese'],
 						price: 200
 					}
-				]
+				],
+				unique_tags: ['veg', 'italian', 'mexican', 'non-veg', 'chinese']
 			}
+			app.Menu = data;
 
 			callback(data);
 		}

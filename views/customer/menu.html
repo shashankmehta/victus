@@ -27,7 +27,12 @@ div.sticky-bottom{
 </script>
 
 <script class="script-menu" type="text/template">
-
+	<div class="filters">
+		<span class="filter" data-filter="all">all</span>
+		{{#each unique_tags}}
+			<span class="filter" data-filter="{{this}}">{{this}}</span>
+		{{/each}}
+	</div>
 	<form>
 	<h2 class="text-center">Menu</h2>
 	<hr>

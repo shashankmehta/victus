@@ -52,6 +52,7 @@ View.prototype.render = function(){
 
 // Expose View function
 app.View = View;
+app.Menu = {items:[],unique_tags:[]};
 var socket = io.connect('/');
 
 app.view = {
@@ -337,12 +338,37 @@ app.view = {
 	MenuItems: function(data){
 		var view = {
 			init: function(data){
-				var parent = '.main';
+				var parent = '.menu-wrapper';
 				var page = new app.View('.script-menu', parent, {data: data});
 				for (var key in page){
 					view[key] = page[key];
 				}
 				view.data = data;
+
+				view.$('span.filter').click(function(){view.filterItems(this);});
+			},
+
+			filterItems: function(obj){
+				var filter = $(obj).attr('data-filter');
+
+				var data = {
+					items: [],
+					unique_tags: app.Menu.unique_tags
+				};
+				
+				if(filter == 'all') {
+					data.items = app.Menu.items;
+				} else {
+					for(key in app.Menu.items) {
+						if(app.Menu.items[key].tags.indexOf(filter) != -1) {
+							data.items.push(app.Menu.items[key]);
+						}
+					}
+				}
+				
+				$('.menu-wrapper').html('');
+
+				view.init(data);
 			}
 		}
 
