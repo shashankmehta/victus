@@ -125,5 +125,42 @@ app.model = {
 			var data = [Math.ceil(Math.random()*100), Math.ceil(Math.random()*100)];
 			callback(data);
 		}
-	}
+	},
+
+	menus: {
+		getItems: function(callback){
+			// app.api.get('/visit/menu', callback);
+			
+			var data = {
+				items: [
+					{
+						item_id: 1,
+						name: 'Spicy Veggy Pizza',
+						tags: ['veg', 'italian'],
+						price: 500
+					},
+					{
+						item_id: 2,
+						name: 'Veg burrito',
+						tags: ['veg', 'mexican'],
+						price: 150
+					},
+					{
+						item_id: 3,
+						name: 'Chicken Pizza',
+						tags: ['non-veg', 'italian'],
+						price: 600
+					},
+					{
+						item_id: 4,
+						name: 'Dimsums',
+						tags: ['veg', 'chinese'],
+						price: 200
+					}
+				]
+			}
+
+			callback(data);
+		}
+	},
 }

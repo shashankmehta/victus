@@ -296,5 +296,20 @@ app.view = {
 		}
 
 		view.init();
+	},
+
+	MenuItems: function(){
+		var view = {
+			init: function(data){
+				var parent = '.main';
+				var page = new app.View('.script-menu', parent, {data: data});
+				for (var key in page){
+					view[key] = page[key];
+				}
+				view.data = data;
+			}
+		}
+
+		app.model.menus.getItems(view.init);
 	}
 }
