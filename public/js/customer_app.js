@@ -6,6 +6,23 @@ app.helpers = {
   }
 }
 
+Handlebars.registerHelper('vegCheck', function(tags){
+  var string = '';
+  for(var i in tags){
+    if(tags[i] == 'veg'){
+      string += '<span class="veg">' + tags[i] + '</span>, ';
+    }
+    else if(tags[i] == 'non-veg'){ 
+      string += '<span class="nonveg">' + tags[i] + '</span>, ';
+    }
+    else {
+      string += tags[i] + ', ';
+    }
+  }
+  string = string.substr(0, string.length-2);
+  return new Handlebars.SafeString(string);
+});
+
 app.cache = {};
 app.orders = 1;
 
