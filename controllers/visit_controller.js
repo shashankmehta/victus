@@ -194,7 +194,6 @@ exports.callForCheck = function (io) {
 exports.giveFeedback = function (io) {
   return function (req, res) {
     var uid = req.user.id;
-    var feedback = req.query.feedback;
     db.Visit.findOne({ user: uid }, function (err, visit) {
       // We have the visit
       if (visit) {
@@ -205,7 +204,7 @@ exports.giveFeedback = function (io) {
           user: uid,
           visit: visit.id,
           restaurant: visit.restaurant,
-          feedback: feedback,
+          feedback: req.query.feedback,
           dateEntered : new Date().getTime()
         });
 
@@ -214,6 +213,7 @@ exports.giveFeedback = function (io) {
             console.log(err);
           }
           if (feedback) {
+            console.log(feedback);
             res.json({ result: true });
             io.sockets.emit('feedback', { evt: 'feedback', table: visit.table });
           } else {

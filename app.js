@@ -37,7 +37,7 @@ var adminStatsController = require('./controllers/admin_stats_controller');
 var visitController = require('./controllers/visit_controller');
 var itemController = require('./controllers/item_controller');
 var userStatsController = require('./controllers/user_stats');
-var feedbackController = require('./controllers/feedback-controller');
+var feedbackController = require('./controllers/feedback_controller');
 
 /**
  * API keys and Passport configuration.

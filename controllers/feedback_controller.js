@@ -9,17 +9,18 @@ exports.listAllFeedback = function (req, res) {
       console.log(err);
     }
     if (restaurant) {
-      
-      db.Feedback.find({ restaurant : restaurant }, function(err,feedback){
 
+      db.Feedback.find({ restaurant : restaurant.id }, function(err,feedback){
+        
         var feedbacks = [];
 
         if(err) cosole.log(err);
         //Fetch user info
         async.each(feedback, function(f, callback){
 
-          db.User.findOne({ id : f.user }, function(err, user){
-            feedbacks.push({ user : user.name, dateEntered : f.dateEntered, feedback : f.feedback });
+          db.User.findOne({ _id : f.user }, function(err, user){
+
+            feedbacks.push({ email : user.email, dateEntered : f.dateEntered, feedback : f.feedback });
             callback();
           });     
 
