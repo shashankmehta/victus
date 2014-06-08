@@ -1,5 +1,12 @@
 window.app = window.app || {};
 
+Handlebars.registerHelper('datePrint', function(timestamp){
+	var d = new Date(timestamp);
+	console.log(d);
+	var string = d.getDate() + '-' + (d.getMonth() + 1) + '-' + d.getFullYear();
+	return string;
+});
+
 app.api = {
 	urlRoot: '',
 
@@ -214,28 +221,6 @@ app.model = {
 	},
 
 	getFeedback: function(callback){
-		// app.api.get('/feedback', '', callback)
-		
-		var data = {
-			items: [
-				{
-					name: 'Shashank Mehta',
-					message: 'This is a random message. I should be trying out something really long, for people will leave long feedbacks. In any case, longer text should only look better in this design',
-					time: '20-05-2014'
-				},
-				{
-					name: 'Shashank Mehta',
-					message: 'This is a random message. I should be trying out something really long, for people will leave long feedbacks. In any case, longer text should only look better in this design',
-					time: '22-05-2014'
-				},
-				{
-					name: 'Shashank Mehta',
-					message: 'This is a random message',
-					time: '23-05-2014'
-				}
-			]
-		}
-
-		callback(data);
+		app.api.get('/feedback/list', '', callback);
 	}
 }
