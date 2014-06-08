@@ -37,6 +37,15 @@ $(document).ready(function(){
 
       var menu = new app.view.MenuItems;
     },
+
+    '/order-placed': function(){
+      app.helpers.clear();
+      var template = Handlebars.compile($('.script-after-order').html());
+      var view = template();
+      $('.main').html(view);
+
+      var menu = new app.view.MenuItems;
+    },
   };
 
   app.router = Router(routes);
