@@ -298,7 +298,7 @@ app.view = {
 		view.init();
 	},
 
-	MenuItems: function(){
+	MenuItems: function(data){
 		var view = {
 			init: function(data){
 				var parent = '.main';

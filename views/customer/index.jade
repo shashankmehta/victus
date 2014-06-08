@@ -3,3 +3,8 @@ extends ../layout
 block content
   div.main
   include menu.html
+
+block custom_footer
+  != js('model')
+  != js('view')
+  != js('customer_app')
