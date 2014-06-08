@@ -1,6 +1,8 @@
 extends ../layout
 
 block content
+  <input type="hidden" id="rid" value="#{rid}">
+  <input type="hidden" id="tid" value="#{tid}">
   div.main
   include menu.html
   include after_order.html

@@ -28,6 +28,21 @@ app.orders = 1;
 
 $(document).ready(function(){
 
+  var rid = $('#rid').val();
+  var tid = $('#tid').val();
+
+  // make a request to /visit/start
+  $.ajax({
+    url: '/visit/start?rid=' + rid + '&tid=' + tid,
+    type: 'GET',
+    async: false,
+    success: function(data) {
+      if(data.result) {
+        console.log('Visit was marked! Yay!');
+      }
+    }
+  });
+
   var routes = {
     '/': function(){
       app.helpers.clear();
