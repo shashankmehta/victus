@@ -74,13 +74,10 @@ exports.getStartingOrders = function (io) {
                       }
 
                       if (itemObj) {
-                        // console.log(itemObj);
                         arr.push({ name: itemObj.name, quantity: quans[k] });
                         if (arr.length == items.length) {
                           io.sockets.emit('food', { evt: 'food', items: arr, table: tno, level: Math.ceil((Math.random() * 10) % 5) });
                         }
-                        // res.json({ result: true });
-                        // res.json({ result: false });
                       }
                     });
                   })(i);
@@ -128,7 +125,7 @@ exports.getCurrentUsers = function (req, res) {
                   if (max < count) {
                     max = count;
                   }
-                  users.push({ user_id: user.id, name: user.profile.name, count: count, level: 0 });
+                  users.push({ user_id: user.id, name: user.email, count: count, level: 0 });
                   if (users.length === visits.length) {
                     for (var j in users) {
                       users[j].level = (users[j].count / max * 1.0 ) * 5;

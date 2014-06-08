@@ -90,7 +90,6 @@ app.view = {
 						view.data.free++;
 						view.$('.set[data-type="eating"] .number').text(view.data.eating);
 						view.$('.set[data-type="free"] .number').text(view.data.free);
-						view.$('.set[data-type="billing"] .number').text(view.data.billing);
 						if($('.custom_modal').is(':visible')){
 						  $('.custom_modal .content .text').append('<br>Table #'+data.table+' requested for their bill');
 						}

@@ -8,7 +8,7 @@ var async = require('async');
 exports.getUserStats = function(req, res){
 
 	var userid = req.user.id;
-	//Search sorted 
+	// Search sorted
 	db.Visit.find({ user : userid }, {}, { sort : { 'started_at' : -1 } , limit : 1 }, function(err, visit){
 
 		if(err) console.log(err);
@@ -26,7 +26,7 @@ exports.getUserStats = function(req, res){
 				async.each(visits, function(v){
 
 					for(var i=0; i<v.items.length; i++){
-						
+
 						(function(i){
 							db.Item.findOne({ id : v.items[i].id }, function(err, item){
 							orders.push(item.name);
@@ -35,19 +35,18 @@ exports.getUserStats = function(req, res){
 							})
 						})(i);
 					}
-				
+
 				}, function(err){
 
 					if(err) console.log(err);
-					
+
 				})
-				
+
 			});
 		}
 		else {
 			//Display last few orders
 			db.Visit.find({ user : userid}, function(err, visits){
-				
 				var past_orders_collection =  [];
 
 				async.each(visits, function(v, callback){

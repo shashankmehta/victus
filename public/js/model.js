@@ -82,21 +82,21 @@ app.model = {
 
 	users: {
 		getTop: function(callback){
-			// app.api.get('/dashboard/user/top', '', function (data) {
-			// 	var obj = { users: data };
-			// 	callback(obj);
-			// });
-			var data = {
-				users: [
-					{
-						name: 'Shashank',
-						level: 5,
-						user_id: 'asdasd'
-					}
-				]
-			}
+			app.api.get('/dashboard/user/top', '', function (data) {
+				var obj = { users: data };
+				callback(obj);
+			});
+			// var data = {
+			// 	users: [
+			// 		{
+			// 			name: 'Shashank',
+			// 			level: 5,
+			// 			user_id: 'asdasd'
+			// 		}
+			// 	]
+			// }
 
-			callback(data);
+			// callback(data);
 		},
 
 		getDetails: function(req, callback){

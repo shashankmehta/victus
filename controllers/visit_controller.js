@@ -172,7 +172,7 @@ exports.callForCheck = function (io) {
     db.Visit.findOne({ user: uid, ended_at: null }, function (err, visit) {
       // We have the visit
       if (visit) {
-        db.Table.findByIdAndUpdate(visit.table, { status: 'billing' }, function (err, table) {
+        db.Table.findByIdAndUpdate(visit.table, { status: 'free' }, function (err, table) {
           if (err) {
             console.log(err);
           }
