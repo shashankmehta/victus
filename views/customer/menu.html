@@ -1,32 +1,49 @@
+<style>
+h3{margin:0px;}
+div.col-xs-2{
+	margin-bottom:5%;
+}
+input[type="checkbox"]{
+	zoom: 2.5;
+}
+</style>
+
 <script class="script-main-page" type="text/template">
-	<div class="menu-wrapper"></div>
+	<div class ="row">
+		<div class="col-xs-12">
+			<div class="menu-wrapper"></div>
+		</div>
+	</div>
 </script>
 
 <script class="script-menu" type="text/template">
+
 	<form>
-	<h2>Menu</h2>
-	<div class="menu">
-		<ul>
-			{{#each items}}
-				<li class="menu-item-group">
-					<div class="item-wrapper">
-						<div class="item-main">
-							<input type="checkbox" name="items[]" value="{{id}}" class="item">
-							<span class="name">{{name}}</span>
-							<span class="price">₹{{price}}</span>
-						</div>
-						<div class="item-tags">
-						{{#each tags}}
-						<span class="tag">{{this}}</span>
-						{{/each}}
-						</div>
-					</div>
-					<div class="hidden">
-						<input type="range" name="quantity[{{id}}]">
-					</div>
-				</li>
-			{{/each}}
-		</ul>
-	</div>
+	<h2 class="text-center">Menu</h2>
+	<hr>
+	{{#each items}}
+		<div class="col-xs-10">	
+			<div class="row">
+				<div class="col-xs-10">
+					<h3>
+						{{name}}
+					</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-10">
+					₹{{price}} - 
+					{{#each tags}} {{this}} {{/each}}
+				</div>
+			</div>	
+		</div>
+
+		<div class="col-xs-2">
+			<input type="checkbox" name="items[]" value="{{id}}" class="item">
+		</div>
+		<div class="hidden">
+			<input type="range" name="quantity[{{id}}]">
+		</div>
+	{{/each}}
 	</form>
 </script>
