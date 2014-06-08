@@ -16,7 +16,7 @@ exports.startNewVisit = function (io) {
       db.Table.findByIdAndUpdate(tid, { status: 'just_in' }, function (err, table) {
         if (table) {
           res.json({ result: true });
-          io.sockets.emit('new_table', { evt: 'new_table', table: tid });
+          io.sockets.emit('new_table', { evt: 'new_table', table: table.sno });
         } else {
           res.json({ result: false });
         }
@@ -80,7 +80,7 @@ exports.orderFood = function (io) {
                       arr.push(x);
                       if (arr.length === items.length) {
                         res.json({ result: true });
-                        io.sockets.emit('food', { evt: 'food', items: arr, table: visit.table })
+                        io.sockets.emit('food', { evt: 'food', items: arr, table: table.sno })
                       }
                     });
                   })(i);
@@ -109,11 +109,17 @@ exports.callForWaiter = function (io) {
         console.log(err);
       }
       if (visit) {
-        res.send({ result: true });
-        io.sockets.emit('waiter', { evt: 'waiter', table: visit.table });
-      } else {
-        res.send({ result: false });
-      }
+        db.findById(visit.table, function (err, table) {
+          if (err) {
+            console.log(err);
+          }
+          if (table) {
+            res.send({ result: true });
+            io.sockets.emit('waiter', { evt: 'waiter', table: table.sno });
+          } else {
+            res.send({ result: false });
+          }
+        })
     });
   }
 };
@@ -144,8 +150,7 @@ exports.callForCheck = function (io) {
           }
           if (table) {
             res.json({ result: true, amount: visit.bill + 0.125 * visit.bill });
-            console
-            io.sockets.emit('payment', { evt: 'payment', table: visit.table });
+            io.sockets.emit('payment', { evt: 'payment', table: table.sno });
           } else {
             res.json({ result: false });
           }
