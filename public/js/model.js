@@ -171,25 +171,25 @@ app.model = {
 			var data = {
 				items: [
 					{
-						item_id: 1,
+						item_id: "1",
 						name: 'Spicy Veggy Pizza',
 						tags: ['veg', 'italian'],
 						price: 500
 					},
 					{
-						item_id: 2,
+						item_id: "2",
 						name: 'Veg burrito',
 						tags: ['veg', 'mexican'],
 						price: 150
 					},
 					{
-						item_id: 3,
+						item_id: "3",
 						name: 'Chicken Pizza',
 						tags: ['non-veg', 'italian'],
 						price: 600
 					},
 					{
-						item_id: 4,
+						item_id: "4",
 						name: 'Dimsums',
 						tags: ['veg', 'chinese'],
 						price: 200
@@ -197,6 +197,12 @@ app.model = {
 				],
 				unique_tags: ['veg', 'italian', 'mexican', 'non-veg', 'chinese']
 			}
+
+			for(var index in data.items) {
+				data.items[index].state = "";
+				data.items[index].quantity = 0;
+			}
+
 			app.Menu = data;
 
 			callback(data);

@@ -53,10 +53,10 @@ div.sticky-bottom{
 		</div>
 
 		<div class="col-xs-2">
-			<input type="checkbox" name="items[]" value="{{id}}" class="item">
+			<input type="checkbox" name="items[]" value="{{item_id}}" data-itemid="{{item_id}}" class="item" {{state}}>
 		</div>
 		<div class="hidden">
-			<input type="range" name="quantity[{{id}}]">
+			<input type="range" name="quantity[{{item_id}}]" data-itemid="{{item_id}}" value="{{quantity}}">
 		</div>
 	{{/each}}
 	<button class="submit">Place Order</button>
