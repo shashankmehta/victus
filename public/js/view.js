@@ -425,8 +425,8 @@ app.view = {
 					data: {items: JSON.stringify(items), quantity: JSON.stringify(quantity)},
 					success: function(data) {
 						if(data.result) {
-							console.log('Order placed.');
-							// redirect user
+							// redirect user to next screen
+							window.location.hash = "/order-placed";
 						}
 					}
 				});
