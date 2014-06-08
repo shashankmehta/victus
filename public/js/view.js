@@ -84,9 +84,9 @@ app.view = {
 				socket.on('payment', function (data){
 					if(view.data.eating >= 1){
 						view.data.eating--;
-						view.data.billing++;
+						view.data.free++;
 						view.$('.set[data-type="eating"] .number').text(view.data.eating);
-						view.$('.set[data-type="billing"] .number').text(view.data.billing);
+						view.$('.set[data-type="free"] .number').text(view.data.free);
 						
 						if($('.custom_modal').is(':visible')){
 						  $('.custom_modal .content .text').append('<br>Table #'+data.table+' requested for their bill');
