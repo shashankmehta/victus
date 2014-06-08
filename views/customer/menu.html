@@ -6,6 +6,16 @@ div.col-xs-2{
 input[type="checkbox"]{
 	zoom: 2.5;
 }
+div.sticky-bottom{
+	position: fixed;
+	bottom: 0px;
+	min-height: 30px;
+	background: #202d3b;
+	color: #FFF;
+	width : 100%;
+	left:0px;
+	line-height: 40px;
+}
 </style>
 
 <script class="script-main-page" type="text/template">
@@ -32,7 +42,7 @@ input[type="checkbox"]{
 			</div>
 			<div class="row">
 				<div class="col-xs-10">
-					₹{{price}} - 
+					{{price}} - 
 					{{vegCheck tags}}
 				</div>
 			</div>	
@@ -46,4 +56,9 @@ input[type="checkbox"]{
 		</div>
 	{{/each}}
 	</form>
+
 </script>
+
+<div class="promotion sticky-bottom text-center">
+Offer of the day : <strong> Paneer Achari @ ₹75 </strong>
+</div>
