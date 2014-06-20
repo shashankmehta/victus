@@ -1,0 +1,13 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'org.gradle.api.plugins:gradle-android-plugin:1.2.1'
+  }
+}
+apply plugin: 'android'
+apply plugin: 'eclipse'
+repositories {
+    mavenCentral()
+}
